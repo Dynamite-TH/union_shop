@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     color: const Color(0xFF4d2963),
                     child: const Text(
-                      'PLACEHOLDER HEADER TEXT',
+                      'Free UK delivery on orders over £30',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
@@ -193,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          'Placeholder Hero Title',
+                          'Hero Collection',
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -203,7 +203,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          "This is placeholder text for the hero section.",
+                          "Discover our exclusive range of products celebrating the spirit of Portsmouth. From apparel to accessories, find the perfect item to showcase your love for the city.",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -294,7 +294,9 @@ class HomeScreen extends StatelessWidget {
               color: Colors.grey[50],
               padding: const EdgeInsets.all(24),
               child: const Text(
-                'Placeholder Footer',
+                'Contact Email: info@example.com / Phone: 123-456-7890 \n'
+                '© 2024 Union Shop. All rights reserved. \n'
+                'Privacy Policy | Terms of Service',
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 16,
