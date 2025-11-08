@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/product_page.dart';
+import 'package:union_shop/Repositories/union_shop_repository.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -29,16 +30,9 @@ class UnionShopApp extends StatelessWidget {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  void navigateToHome(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-  }
-
-  void navigateToProduct(BuildContext context) {
-    Navigator.pushNamed(context, '/product');
-  }
 
   void placeholderCallbackForButtons() {
-    // This is the event handler for buttons that don't work yet
+    UnionShopRepository().placeholderCallbackForButtons();
   }
 
   @override
@@ -72,7 +66,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              navigateToHome(context);
+                              UnionShopRepository().navigateToHome(context);
                             },
                             child: Image.network(
                               'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
@@ -327,7 +321,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        UnionShopRepository().navigateToProduct(context);
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
