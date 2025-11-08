@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/about_us.dart';
 import 'package:union_shop/product_page.dart';
 import 'package:union_shop/Repositories/union_shop_repository.dart';
+import 'package:union_shop/collections.dart';
 
 void main() {
   runApp(const UnionShopApp());
@@ -23,8 +24,10 @@ class UnionShopApp extends StatelessWidget {
       initialRoute: '/',
       // When navigating to '/product', build and return the ProductPage
       // In your browser, try this link: http://localhost:49856/#/product
-      routes: {'/product': (context) => const ProductPage(),
-      '/about_us': (context) => const AboutUsPage(),
+      routes: {
+        '/product': (context) => const ProductPage(),
+        '/about_us': (context) => const AboutUsScreen(),
+        '/collections': (context) => const CollectionsScreen(),
       },
     );
   }
@@ -32,7 +35,6 @@ class UnionShopApp extends StatelessWidget {
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
 
   void placeholderCallbackForButtons() {
     UnionShopRepository().placeholderCallbackForButtons();
@@ -94,20 +96,21 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                    UnionShopRepository().navigateToHome(context);
+                                    UnionShopRepository()
+                                        .navigateToCollections(context);
                                   },
                                   child: const Text(
                                     'HOME',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w600,
-                                      
                                     ),
                                   ),
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    UnionShopRepository().navigateToAboutUs(context);
+                                    UnionShopRepository()
+                                        .navigateToAboutUs(context);
                                   },
                                   child: const Text(
                                     'ABOUT US',
