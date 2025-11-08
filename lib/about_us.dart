@@ -1,23 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:union_shop/Repositories/union_shop_repository.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({Key? key}) : super(key: key);
-
-  void navigateToHome(BuildContext context) {
-    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-  }
-
-  void navigateToAboutUs(BuildContext context) {
-    Navigator.pushNamed(context, '/about_us');
-  }
-
-  void navigateToProduct(BuildContext context) {
-    Navigator.pushNamed(context, '/product_page');
-  }
-
-  void placeholderCallbackForButtons() {
-    // This is the event handler for buttons that don't work yet
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +35,7 @@ class AboutUsPage extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/');
+                              UnionShopRepository().navigateToHome(context);
                             },
                             child: Image.network(
                               'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
@@ -86,7 +71,8 @@ class AboutUsPage extends StatelessWidget {
                                     minWidth: 32,
                                     minHeight: 32,
                                   ),
-                                  onPressed: placeholderCallbackForButtons,
+                                  onPressed: UnionShopRepository()
+                                      .placeholderCallbackForButtons,
                                 ),
                                 IconButton(
                                   icon: const Icon(
@@ -99,7 +85,8 @@ class AboutUsPage extends StatelessWidget {
                                     minWidth: 32,
                                     minHeight: 32,
                                   ),
-                                  onPressed: placeholderCallbackForButtons,
+                                  onPressed: UnionShopRepository()
+                                      .placeholderCallbackForButtons,
                                 ),
                                 IconButton(
                                   icon: const Icon(
@@ -112,7 +99,8 @@ class AboutUsPage extends StatelessWidget {
                                     minWidth: 32,
                                     minHeight: 32,
                                   ),
-                                  onPressed: placeholderCallbackForButtons,
+                                  onPressed: UnionShopRepository()
+                                      .placeholderCallbackForButtons,
                                 ),
                                 IconButton(
                                   icon: const Icon(
@@ -125,7 +113,8 @@ class AboutUsPage extends StatelessWidget {
                                     minWidth: 32,
                                     minHeight: 32,
                                   ),
-                                  onPressed: placeholderCallbackForButtons,
+                                  onPressed: UnionShopRepository()
+                                      .placeholderCallbackForButtons,
                                 ),
                               ],
                             ),
