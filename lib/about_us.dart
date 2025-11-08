@@ -60,20 +60,21 @@ class AboutUsPage extends StatelessWidget {
                               children: [
                                 TextButton(
                                   onPressed: () {
-                                    UnionShopRepository().navigateToHome(context);
+                                    UnionShopRepository()
+                                        .navigateToHome(context);
                                   },
                                   child: const Text(
                                     'HOME',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w600,
-                                      
                                     ),
                                   ),
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    UnionShopRepository().navigateToAboutUs(context);
+                                    UnionShopRepository()
+                                        .navigateToAboutUs(context);
                                   },
                                   child: const Text(
                                     'ABOUT US',
@@ -158,22 +159,52 @@ class AboutUsPage extends StatelessWidget {
               ),
             ),
             // About Us Content
-            Scaffold(
-              appBar: AppBar(
-                title: const Text('About Us'),
-              ),
-              body: const Padding(
-                padding: EdgeInsets.all(16.0),
+            const SizedBox(
+              child: Padding(
+                padding: EdgeInsets.all(40.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'About Union Shop',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      'About Us',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        letterSpacing: 1,
+                      ),
                     ),
-                    SizedBox(height: 16),
+                    SizedBox(height: 48),
+                    Column(
+                      children: [
+                        Text(
+                          'This is the About Us page.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        Text(
+                          'Here you can provide information about your company, mission, values, and team.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        Text(
+                          'Feel free to customize this section to best represent your brand and connect with your audience.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ],
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              color: Colors.grey[50],
+              padding: const EdgeInsets.all(24),
+              child: const Text(
+                'Contact Email: info@example.com / Phone: 123-456-7890 \n'
+                '© 2024 Union Shop. All rights reserved. \n'
+                'Privacy Policy | Terms of Service',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
