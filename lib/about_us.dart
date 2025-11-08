@@ -54,7 +54,38 @@ class AboutUsPage extends StatelessWidget {
                               },
                             ),
                           ),
-                          const Spacer(),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    UnionShopRepository().navigateToHome(context);
+                                  },
+                                  child: const Text(
+                                    'HOME',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    UnionShopRepository().navigateToAboutUs(context);
+                                  },
+                                  child: const Text(
+                                    'ABOUT US',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 600),
                             child: Row(
