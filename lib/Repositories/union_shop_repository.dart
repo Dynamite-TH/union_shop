@@ -9,6 +9,10 @@ class UnionShopRepository {
     Navigator.pushNamed(context, '/product');
   }
 
+  void navigateToCollections(BuildContext context) {
+    Navigator.pushNamed(context, '/collections');
+  }
+
   void navigateToAboutUs(BuildContext context) {
     Navigator.pushNamed(context, '/about_us');
   }
