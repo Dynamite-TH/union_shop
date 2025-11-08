@@ -169,14 +169,20 @@ class CollectionsScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 20),
-                          ),
                         ],
                       ),
                     ),
                   ),
                 ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(40.0),
+              child: Center(
+                child: Text(
+                  'Collections Page',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                ),
               ),
             ),
           ],
