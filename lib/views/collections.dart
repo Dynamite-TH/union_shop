@@ -47,6 +47,28 @@ class CollectionsScreen extends StatelessWidget {
   }
 }
 
+const List<_CollectionItem> _demoCollections = [
+  _CollectionItem('Autumn Favourites',
+      'https://via.placeholder.com/800x800.png?text=Autumn'),
+  _CollectionItem('Black Friday',
+      'https://via.placeholder.com/800x800.png?text=Black+Friday'),
+  _CollectionItem(
+      'Clothing', 'https://via.placeholder.com/800x800.png?text=Clothing'),
+  _CollectionItem(
+      'Hoodies', 'https://via.placeholder.com/800x800.png?text=Hoodies'),
+  _CollectionItem(
+      'T-Shirts', 'https://via.placeholder.com/800x800.png?text=Tshirts'),
+  _CollectionItem('Accessories',
+      'https://via.placeholder.com/800x800.png?text=Accessories'),
+];
+
+class _CollectionItem {
+  final String title;
+  final String imageUrl;
+
+  const _CollectionItem(this.title, this.imageUrl);
+}
+
 class CollectionsCard extends StatelessWidget {
   final String imageUrl;
   final String title;
@@ -77,22 +99,7 @@ class CollectionsCard extends StatelessWidget {
                 );
               },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          )
         ],
       ),
     );
