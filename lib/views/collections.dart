@@ -14,19 +14,7 @@ class CollectionsPage extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
       ),
       home: const CollectionsScreen(),
-      // By default, the app starts at the '/' route, which is the HomeScreen
       initialRoute: '/collections',
-      routes: {
-        '/autumn-favourites': (context) =>
-            const CollectionDetailScreen(title: 'Autumn Favourites'),
-        '/sales-product': (context) =>
-            const CollectionDetailScreen(title: 'Sales'),
-        '/hoodies': (context) => const CollectionDetailScreen(title: 'Hoodies'),
-        '/t-shirts': (context) =>
-            const CollectionDetailScreen(title: 'T-Shirts'),
-        '/accessories': (context) =>
-            const CollectionDetailScreen(title: 'Accessories'),
-      },
     );
   }
 }
@@ -134,9 +122,10 @@ class CollectionsCard extends StatelessWidget {
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
                           color: Colors.grey[200],
-                          child: const Center(
-                              child: Text('Image not available',
-                                  style: TextStyle(color: Colors.grey))),
+                          child: Center(
+                              child: Text(
+                                  'Image not available - page for $title',
+                                  style: const TextStyle(color: Colors.grey))),
                         );
                       },
                     )
