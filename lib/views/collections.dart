@@ -25,18 +25,39 @@ class CollectionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(40.0),
               child: Center(
                 child: Text(
                   'Collections',
                   style: TextStyle(fontSize: 24, color: Colors.black),
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 1,
+                ),
+                itemCount: _demoCollections.length,
+                itemBuilder: (context, index) {
+                  final collection = _demoCollections[index];
+                  return CollectionsCard(
+                    imageUrl: collection.imageUrl,
+                    title: collection.title,
+                  );
+                },
               ),
             ),
           ],
