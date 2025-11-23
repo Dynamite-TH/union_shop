@@ -4,6 +4,7 @@ import 'package:union_shop/views/about_us.dart';
 import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/collections.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/widgets/drawer.dart';
 
 class UnionShopApp extends StatelessWidget {
   const UnionShopApp({super.key});
@@ -194,6 +195,7 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
+      drawer: const AppDrawer(),
     );
   }
 }
