@@ -13,9 +13,20 @@ class CollectionsPage extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
       ),
-      home: const CollectionsPage(),
+      home: const CollectionsScreen(),
       // By default, the app starts at the '/' route, which is the HomeScreen
       initialRoute: '/collections',
+      routes: {
+        '/autumn-favourites': (context) =>
+            const CollectionDetailScreen(title: 'Autumn Favourites'),
+        '/sales-product': (context) =>
+            const CollectionDetailScreen(title: 'Sales'),
+        '/hoodies': (context) => const CollectionDetailScreen(title: 'Hoodies'),
+        '/t-shirts': (context) =>
+            const CollectionDetailScreen(title: 'T-Shirts'),
+        '/accessories': (context) =>
+            const CollectionDetailScreen(title: 'Accessories'),
+      },
     );
   }
 }
@@ -57,7 +68,10 @@ class CollectionsScreen extends StatelessWidget {
                     imageUrl: collection.imageUrl,
                     title: collection.title,
                     onTap: () {
-                      Navigator.of(context).pushNamed(collection.route);
+                      // Navigate to a path under /collections so the URL becomes
+                      // .../collections/sales-product (for example)
+                      Navigator.of(context)
+                          .pushNamed('/collections${collection.route}');
                     },
                   );
                 },
@@ -74,8 +88,8 @@ class CollectionsScreen extends StatelessWidget {
 const List<_CollectionItem> _demoCollections = [
   _CollectionItem('Autumn Favourites',
       '/assets/images/collections/autumn_favourites.png', '/'),
-  _CollectionItem(
-      'Sales', '/assets/images/collections/black_friday_deals.png', '/'),
+  _CollectionItem('Sales', '/assets/images/collections/black_friday_deals.png',
+      '/sales-product'),
   _CollectionItem('Hoodies', '', '/'),
   _CollectionItem('T-Shirts', '', '/'),
   _CollectionItem('Accessories', '', '/about_us'),
@@ -121,9 +135,8 @@ class CollectionsCard extends StatelessWidget {
                         return Container(
                           color: Colors.grey[200],
                           child: const Center(
-                            child: Icon(Icons.image_not_supported,
-                                color: Colors.grey),
-                          ),
+                              child: Text('Image not available',
+                                  style: TextStyle(color: Colors.grey))),
                         );
                       },
                     )
@@ -140,6 +153,22 @@ class CollectionsCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CollectionDetailScreen extends StatelessWidget {
+  final String title;
+  const CollectionDetailScreen({Key? key, required this.title})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: Center(
+        child: Text('Details for "$title"'),
       ),
     );
   }
