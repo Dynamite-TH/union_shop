@@ -5,6 +5,8 @@ import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/collections.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/widgets/drawer.dart';
+import 'package:union_shop/views/sales_product_page.dart';
+import 'package:union_shop/views/not_found.dart';
 
 class UnionShopApp extends StatelessWidget {
   const UnionShopApp({super.key});
@@ -26,6 +28,14 @@ class UnionShopApp extends StatelessWidget {
         '/product': (context) => const ProductPage(),
         '/about_us': (context) => const AboutUsScreen(),
         '/collections': (context) => const CollectionsScreen(),
+        '/collections/sales-product': (context) => const SalesProductScreen(),
+      },
+      // If a route is not found, show the 404 page
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => const PageNotFoundScreen(),
+          settings: settings,
+        );
       },
     );
   }
