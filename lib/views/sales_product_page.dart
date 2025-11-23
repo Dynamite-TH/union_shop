@@ -13,7 +13,7 @@ class SalesProductPage extends StatelessWidget {
       ),
       home: const SalesProductScreen(),
       // By default, the app starts at the '/' route, which is the HomeScreen
-      initialRoute: '/sales_product',
+      initialRoute: 'collections/sales_product',
     );
   }
 }
