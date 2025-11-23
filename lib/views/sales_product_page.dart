@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/widgets/drawer.dart';
 
 class SalesProductPage extends StatelessWidget {
   const SalesProductPage({Key? key}) : super(key: key);
@@ -23,11 +25,10 @@ class SalesProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sales Product Page'),
-      ),
-      body: const Center(
+    return const Scaffold(
+      appBar: CustomAppBar(),
+      drawer: AppDrawer(),
+      body: Center(
         child: Text('This is the Sales Product Page.'),
       ),
     );
