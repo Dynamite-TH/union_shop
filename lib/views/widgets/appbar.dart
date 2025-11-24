@@ -163,9 +163,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                   minHeight: 32,
                                 ),
                                 onPressed: () {
-                                  final overlay = Overlay.of(menuContext)!
+                                  final overlay = Overlay.of(menuContext)
                                       .context
-                                      .findRenderObject() as RenderBox;
+                                      .findRenderObject() as RenderBox?;
                                   final appBarBox =
                                       context.findRenderObject() as RenderBox;
                                   final appBarOffset = appBarBox.localToGlobal(
@@ -270,5 +270,3 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
-
-enum _MenuOption { home, about }
