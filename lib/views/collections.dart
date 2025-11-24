@@ -19,11 +19,38 @@ class CollectionsPage extends StatelessWidget {
   }
 }
 
-class CollectionsScreen extends StatelessWidget {
+class CollectionsScreen extends StatefulWidget {
   const CollectionsScreen({Key? key}) : super(key: key);
 
   @override
+  State<CollectionsScreen> createState() => _CollectionsScreenState();
+}
+
+class _CollectionsScreenState extends State<CollectionsScreen> {
+  String? _selectedTag;
+  late List<String> _allTags;
+
+  @override
+  void initState() {
+    super.initState();
+    // collect unique tags from demo data
+    final tagSet = <String>{};
+    for (final c in _demoCollections) {
+      tagSet.addAll(c.tags);
+    }
+    _allTags = tagSet.toList()..sort();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // filter items by selected tag (null = all)
+    final filtered = _selectedTag == null
+        ? _demoCollections
+        : _demoCollections.where((c) => c.tags.contains(_selectedTag)).toList();
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -38,32 +65,102 @@ class CollectionsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1,
-                ),
-                itemCount: _demoCollections.length,
-                itemBuilder: (context, index) {
-                  final collection = _demoCollections[index];
-                  return CollectionsCard(
-                    imageUrl: collection.imageUrl,
-                    title: collection.title,
-                    onTap: () {
-                      // Navigate to a path under /collections so the URL becomes
-                      // .../collections/sales-product (for example)
-                      Navigator.of(context)
-                          .pushNamed('/collections${collection.route}');
-                    },
-                  );
-                },
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 1,
               ),
+            ),
+
+            // Tag filter chips (horizontal)
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: ChoiceChip(
+                        label: const Text('All'),
+                        selected: _selectedTag == null,
+                        selectedColor: const Color(0xFF4d2963),
+                        onSelected: (sel) {
+                          setState(() {
+                            _selectedTag = null;
+                          });
+                        },
+                        labelStyle: TextStyle(
+                          color: _selectedTag == null
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
+                    ),
+                    ..._allTags.map((tag) {
+                      final selected = _selectedTag == tag;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ChoiceChip(
+                          label: Text(tag),
+                          selected: selected,
+                          selectedColor: const Color(0xFF4d2963),
+                          onSelected: (sel) {
+                            setState(() {
+                              _selectedTag = sel ? tag : null;
+                            });
+                          },
+                          labelStyle: TextStyle(
+                            color: selected ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ],
+                ),
+              ),
+            ),
+
+            // Grid or empty message
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+              child: filtered.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0),
+                      child: Center(
+                        child: Text(
+                          'No collections match "$_selectedTag"',
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.black54),
+                        ),
+                      ),
+                    )
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) {
+                        final collection = filtered[index];
+                        return CollectionsCard(
+                          imageUrl: collection.imageUrl,
+                          title: collection.title,
+                          route: collection.route,
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed('/collections${collection.route}');
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -74,21 +171,25 @@ class CollectionsScreen extends StatelessWidget {
 }
 
 const List<_CollectionItem> _demoCollections = [
-  _CollectionItem('Autumn Favourites',
-      '/assets/images/collections/autumn_favourites.png', '/'),
-  _CollectionItem('Sales', '/assets/images/collections/black_friday_deals.png',
-      '/sales-product'),
-  _CollectionItem('Hoodies', '', '/'),
-  _CollectionItem('T-Shirts', '', '/'),
-  _CollectionItem('Accessories', '', '/about_us'),
+  _CollectionItem(
+      'Autumn Favourites',
+      '/assets/images/collections/autumn_favourites.png',
+      '/',
+      ['autumn', 'fall', 'clothing']),
+  _CollectionItem('Sales', '/assets/images/collections/sales.png',
+      '/sales-product', ['discount', 'clothing', 'accessories']),
+  _CollectionItem('Hoodies', '', '/', ['hoodies', 'sweatshirts', 'clothing']),
+  _CollectionItem('T-Shirts', '', '/', ['tshirt', 'tees', 'clothing']),
+  _CollectionItem('Accessories', '', '/about_us', ['accessories']),
 ];
 
 class _CollectionItem {
   final String title;
   final String imageUrl;
   final String route;
+  final List<String> tags;
 
-  const _CollectionItem(this.title, this.imageUrl, this.route);
+  const _CollectionItem(this.title, this.imageUrl, this.route, this.tags);
 }
 
 class CollectionsCard extends StatelessWidget {
@@ -133,7 +234,7 @@ class CollectionsCard extends StatelessWidget {
                       color: Colors.grey[200],
                       child: Center(
                         child: Text(
-                          title,
+                          'image not available - page for $title',
                           textAlign: TextAlign.center,
                           style: const TextStyle(color: Colors.black54),
                         ),
@@ -142,22 +243,6 @@ class CollectionsCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CollectionDetailScreen extends StatelessWidget {
-  final String title;
-  const CollectionDetailScreen({Key? key, required this.title})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text('Details for "$title"'),
       ),
     );
   }
