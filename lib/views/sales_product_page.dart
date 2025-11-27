@@ -283,11 +283,12 @@ class _ProductItemCardState extends State<ProductItemCard> {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-                child: GestureDetector(
+            child: GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => ProductPage(product: product)),
+                  MaterialPageRoute(
+                      builder: (_) => ProductPage(product: product)),
                 );
               },
               child: SizedBox(
