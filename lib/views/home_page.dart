@@ -3,7 +3,6 @@ import 'package:union_shop/Repositories/union_shop_repository.dart';
 import 'package:union_shop/views/about_us.dart';
 import 'package:union_shop/views/collections.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
-import 'package:union_shop/views/widgets/drawer.dart';
 import 'package:union_shop/views/sales_product_page.dart';
 import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/not_found.dart';
@@ -230,7 +229,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      drawer: const AppDrawer(),
     );
   }
 }

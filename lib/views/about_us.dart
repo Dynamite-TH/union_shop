@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
-import 'package:union_shop/views/widgets/drawer.dart';
 
 
 class AboutUsPage extends StatelessWidget {
@@ -83,7 +82,6 @@ class AboutUsPage extends StatelessWidget {
           ],
         ),
       ),
-      drawer: const AppDrawer(),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
-import 'package:union_shop/views/widgets/drawer.dart';
 
 class CollectionsPage extends StatelessWidget {
   const CollectionsPage({super.key});
@@ -170,7 +169,6 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
           ],
         ),
       ),
-      drawer: const AppDrawer(),
     );
   }
 }

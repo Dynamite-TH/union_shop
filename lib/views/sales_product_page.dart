@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
-import 'package:union_shop/views/widgets/drawer.dart';
 
 class SalesProductPage extends StatelessWidget {
   const SalesProductPage({Key? key}) : super(key: key);
@@ -185,7 +184,6 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
           ],
         ),
       ),
-      drawer: const AppDrawer(),
     );
   }
 }

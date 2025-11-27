@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
-import 'package:union_shop/views/widgets/drawer.dart';
 import 'package:union_shop/Repositories/cart_manager.dart';
 
 class CartPage extends StatelessWidget {
@@ -34,7 +33,6 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      drawer: const AppDrawer(),
       body: AnimatedBuilder(
         animation: cart,
         builder: (context, _) {
