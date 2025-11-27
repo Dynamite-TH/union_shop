@@ -30,14 +30,14 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     final p = widget.product ??
         SalesProductItem(
-          name: 'Placeholder Product Name',
+          name: 'Placeholder Product',
           description:
-              'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
-          price: 15.00,
+              'This is a placeholder product description. Students should replace this with actual product data.',
+          price: 0.0,
           discount: 0.0,
-          tags: const [],
           imageUrl:
-              'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+              'https://via.placeholder.com/600x400.png?text=Placeholder+Image',
+          tags: [],
         );
     final salePrice = (p.price - p.discount).clamp(0.0, double.infinity);
 
@@ -251,20 +251,6 @@ class _ProductPageState extends State<ProductPage> {
         ),
 
         const SizedBox(height: 12),
-
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF5e2bff),
-            minimumSize: const Size.fromHeight(48),
-          ),
-          onPressed: () {
-            // Placeholder buy action
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Buy (placeholder)')));
-          },
-          child: const Text('Buy with shop',
-              style: TextStyle(fontWeight: FontWeight.w700)),
-        ),
 
         const SizedBox(height: 20),
 
