@@ -28,7 +28,7 @@ class UnionShopApp extends StatelessWidget {
         '/about_us': (context) => const AboutUsScreen(),
         '/collections': (context) => const CollectionsScreen(),
         '/collections/sales-product': (context) => const SalesProductScreen(),
-        '/collections/sales_product/product': (context) => const ProductPage(),
+        '/collections/sales-product/product': (context) => const ProductPage(),
       },
       // If a route is not found, show the 404 page
       onUnknownRoute: (settings) {
