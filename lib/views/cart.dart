@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/widgets/drawer.dart';
-import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/Repositories/cart_manager.dart';
 
 class CartPage extends StatelessWidget {
@@ -48,7 +47,7 @@ class _CartScreenState extends State<CartScreen> {
                   const Text('Your cart is empty.'),
                   const SizedBox(height: 12),
                   ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pushNamed(context, '/'),
                     child: const Text('Back to shopping'),
                   )
                 ],
