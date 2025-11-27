@@ -17,7 +17,15 @@ class UnionShopRepository {
     Navigator.pushNamed(context, '/about_us');
   }
 
+  void navigateToSalesProduct(BuildContext context) {
+    Navigator.pushNamed(context, 'collections/sales-product');
+  }
+
+  void navigateToCart(BuildContext context) {
+    Navigator.pushNamed(context, '/cart');
+  }
+
   void placeholderCallbackForButtons() {
-    // This is the event handler for buttons that don't work yet
+    // Placeholder function for buttons without functionality
   }
 }
