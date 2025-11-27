@@ -1,0 +1,82 @@
+[
+    {
+        "catagory": "sale",
+        "name": "Union Tee",
+        "price": 19.99,
+        "description": "Soft cotton t-shirt with embroidered university logo.",
+        "discount": 10,
+        "tags": ["clothing", "apparel", "casual"]
+    },
+    {
+        "catagory": "sale",
+        "name": "Campus Hoodie",
+        "price": 49.99,
+        "description": "Fleece-lined hoodie with front pocket and printed crest.",
+        "discount": 15,
+        "tags": ["clothing", "outerwear", "unisex"]
+    },
+    {
+        "catagory": "accessory",
+        "name": "Study Notebook (A5)",
+        "price": 6.5,
+        "description": "Durable A5 notebook, 120 lined pages, hardcover.",
+        "discount": 0,
+        "tags": ["stationery", "notebook", "study"]
+    },
+    {
+        "catagory": "accessory",
+        "name": "Insulated Travel Mug",
+        "price": 14.0,
+        "description": "Stainless steel travel mug, 350ml, keeps drinks hot for hours.",
+        "discount": 5,
+        "tags": ["drinkware", "accessory", "travel"]
+    },
+    {
+        "catagory": "sale",
+        "name": "Wireless Earbuds",
+        "price": 79.99,
+        "description": "Bluetooth earbuds with charging case and noise isolation.",
+        "discount": 20,
+        "tags": ["electronics", "audio", "wireless"]
+    },
+    {
+        "catagory": "accessory",
+        "name": "Canvas Tote Bag",
+        "price": 12.0,
+        "description": "Reinforced canvas tote with long handles and printed design.",
+        "discount": 0,
+        "tags": ["bag", "eco", "accessory"]
+    },
+    {
+        "catagory": "sale",
+        "name": "Desk Lamp LED",
+        "price": 29.99,
+        "description": "Adjustable LED desk lamp with dimmer and USB charging port.",
+        "discount": 10,
+        "tags": ["home", "lighting", "study"]
+    },
+    {
+        "catagory": "sale",
+        "name": "Laptop Sleeve 13\"",
+        "price": 21.5,
+        "description": "Padded neoprene sleeve, slim fit for 13-inch laptops.",
+        "discount": 5,
+        "tags": ["accessory", "electronics", "protection"]
+    },
+    {
+        "catagory": "accessory",
+        "name": "Classic Pen Set",
+        "price": 4.25,
+        "description": "Pack of 5 smooth-writing gel pens in assorted colors.",
+        "discount": 0,
+        "tags": ["stationery", "pen", "office"]
+    },
+    {
+        "catagory": "sale",
+        "name": "Campus Scarf",
+        "price": 17.99,
+        "description": "Warm knit scarf with school colors and fringe.",
+        "discount": 25,
+        "tags": ["clothing", "winter", "gift"]
+    }
+]
