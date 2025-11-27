@@ -3,9 +3,9 @@ import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/sales_product_page.dart';
 
 class ProductPage extends StatefulWidget {
-  final SalesProductItem product;
+  final SalesProductItem? product;
 
-  const ProductPage({super.key, required this.product});
+  const ProductPage({super.key, this.product});
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -28,7 +28,17 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final p = widget.product;
+    final p = widget.product ??
+        SalesProductItem(
+          name: 'Placeholder Product Name',
+          description:
+              'This is a placeholder description for the product. Students should replace this with real product information and implement proper data management.',
+          price: 15.00,
+          discount: 0.0,
+          tags: const [],
+          imageUrl:
+              'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
+        );
     final salePrice = (p.price - p.discount).clamp(0.0, double.infinity);
 
     final screenWidth = MediaQuery.of(context).size.width;
@@ -289,6 +299,17 @@ class _ProductPageState extends State<ProductPage> {
                     detailsColumn
                   ],
                 ),
+        ),
+      ),
+      // Footer (keep placeholder footer to match student exercises/tests)
+      bottomNavigationBar: Container(
+        width: double.infinity,
+        color: Colors.grey[50],
+        padding: const EdgeInsets.all(16),
+        child: const Text(
+          'Placeholder Footer\nStudents should customise this footer section',
+          style: TextStyle(color: Colors.grey, fontSize: 14),
+          textAlign: TextAlign.center,
         ),
       ),
     );
