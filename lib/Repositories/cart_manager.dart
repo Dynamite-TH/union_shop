@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:union_shop/views/sales_product_page.dart';
+import 'package:union_shop/views/home_page.dart';
 
 class CartItem {
-  final SalesProductItem product;
+  final ProductItem product;
   String color;
   String size;
   int quantity;
@@ -14,7 +14,8 @@ class CartItem {
     this.quantity = 1,
   });
 
-  double get unitPrice => (product.price - product.discount).clamp(0.0, double.infinity);
+  double get unitPrice =>
+      (product.price - product.discount).clamp(0.0, double.infinity);
   double get total => unitPrice * quantity;
 }
 
@@ -29,7 +30,10 @@ class CartManager extends ChangeNotifier {
 
   void addItem(CartItem item) {
     // If same product + color + size already in cart, increase quantity
-    final existing = _items.indexWhere((e) => e.product.name == item.product.name && e.color == item.color && e.size == item.size);
+    final existing = _items.indexWhere((e) =>
+        e.product.name == item.product.name &&
+        e.color == item.color &&
+        e.size == item.size);
     if (existing >= 0) {
       _items[existing].quantity += item.quantity;
     } else {
