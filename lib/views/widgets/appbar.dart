@@ -145,8 +145,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             minWidth: 32,
                             minHeight: 32,
                           ),
-                          onPressed: UnionShopRepository()
-                              .placeholderCallbackForButtons,
+                          onPressed: () =>
+                              UnionShopRepository().navigateToCart(context),
                         ),
                         if (isMobile) ...[
                           Builder(
