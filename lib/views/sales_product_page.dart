@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/widgets/drawer.dart';
-import 'package:union_shop/views/product_page.dart';
 
 class SalesProductPage extends StatelessWidget {
   const SalesProductPage({Key? key}) : super(key: key);
@@ -285,11 +284,9 @@ class _ProductItemCardState extends State<ProductItemCard> {
             ),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => ProductPage(product: product)),
-                );
+                final slug = product.name.replaceAll(' ', '-').toLowerCase();
+                Navigator.pushNamed(
+                    context, '/collections/sales-product/$slug');
               },
               child: SizedBox(
                 height: 200,
