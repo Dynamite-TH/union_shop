@@ -26,29 +26,55 @@ class SalesProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 1 : 4);
+    final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
+
+    // display-friendly selected tag name
+
+    // dropdown width: keep it compact on larger screens but allow shrinking on small devices
 
     return Scaffold(
       appBar: const CustomAppBar(),
-      drawer: const AppDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: salesProducts.isEmpty
-            ? const Center(child: Text('No sales products available.'))
-            : GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 5,
-                  mainAxisSpacing: 5,
-                  childAspectRatio: 0.75,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(40.0),
+              child: Center(
+                child: Text(
+                  'Sales Products',
+                  style: TextStyle(fontSize: 24, color: Colors.black),
                 ),
-                itemCount: salesProducts.length,
-                itemBuilder: (context, index) {
-                  return ProductItemCard(product: salesProducts[index]);
-                },
               ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 1,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: salesProducts.isEmpty
+                  ? const Center(child: Text('No sales products available.'))
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemCount: salesProducts.length,
+                      itemBuilder: (context, index) {
+                        return ProductItemCard(product: salesProducts[index]);
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
+      drawer: const AppDrawer(),
     );
   }
 }
