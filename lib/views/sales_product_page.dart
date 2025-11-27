@@ -22,13 +22,17 @@ class SalesProductPage extends StatelessWidget {
 
 class SalesProductScreen extends StatelessWidget {
   const SalesProductScreen({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
 
+
     // display-friendly selected tag name
+    final dropdownWidth =
+        screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 420.0) : 320.0;
+
 
     // dropdown width: keep it compact on larger screens but allow shrinking on small devices
 
@@ -47,7 +51,76 @@ class SalesProductScreen extends StatelessWidget {
               ),
             ),
             const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                'Explore our exclusive sales products at unbeatable prices! Don\'t miss out on these limited-time offers.',
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 1,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                'Filter by:',
+                style: TextStyle(fontSize: 16, color: Colors.black54),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              child: Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 12.0),
+                    child: Icon(Icons.filter_list, color: Colors.black54),
+                  ),
+                  SizedBox(
+                    width: dropdownWidth,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String?>(
+                          isExpanded: true,
+                          value: _selectedTag,
+                          hint: const Text('Select filter'),
+                          items: [
+                            const DropdownMenuItem<String?>(
+                              value: null,
+                              child: Text('All'),
+                            ),
+                            ..._allTags
+                                .map((tag) => DropdownMenuItem<String?>(
+                                      value: tag,
+                                      child: Text(tag),
+                                    ))
+                                .toList(),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              _selectedTag = val;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Divider(
                 color: Colors.grey,
                 thickness: 1,
@@ -57,18 +130,27 @@ class SalesProductScreen extends StatelessWidget {
               padding: const EdgeInsets.all(5.0),
               child: salesProducts.isEmpty
                   ? const Center(child: Text('No sales products available.'))
-                  : GridView.builder(
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: 0.75,
+                  : Center(
+                      child: ConstrainedBox(
+                        // Keep the grid centered and readable on wide screens
+                        constraints: const BoxConstraints(maxWidth: 1200),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 0.75,
+                          ),
+                          itemCount: salesProducts.length,
+                          itemBuilder: (context, index) {
+                            return ProductItemCard(
+                                product: salesProducts[index]);
+                          },
+                        ),
                       ),
-                      itemCount: salesProducts.length,
-                      itemBuilder: (context, index) {
-                        return ProductItemCard(product: salesProducts[index]);
-                      },
                     ),
             ),
           ],
@@ -111,6 +193,13 @@ final List<SalesProductItem> salesProducts = [
     discount: 5.00,
     imageUrl: 'https://example.com/images/sale_jeans.jpg',
   ),
+  SalesProductItem(
+    name: 'Clearance Jacket',
+    description: 'A warm jacket available at clearance prices.',
+    price: 49.99,
+    discount: 10.00,
+    imageUrl: 'https://example.com/images/clearance_jacket.jpg',
+  ),
 ];
 
 class ProductItemCard extends StatefulWidget {
@@ -136,56 +225,61 @@ class _ProductItemCardState extends State<ProductItemCard> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    // compact card style adjustments handled per-Text widget below
 
     return Card(
-      elevation: 1,
+      color: Colors.transparent,
+      elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       clipBehavior: Clip.hardEdge,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Image area wrapped in an IconButton so the image is tappable.
-          IconButton(
-            padding: EdgeInsets.zero,
-            icon: Stack(
-              children: [
-                // Image
-                SizedBox(
-                  height: 150,
-                  width: double.infinity,
-                  child: Image.network(
-                    product.imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.white,
-                      child: const Center(child: Icon(Icons.broken_image)),
-                    ),
+          // Image (top) — clipped to top corners
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  '/collections/sales-product/product-${product.name.replaceAll(' ', '-').toLowerCase()}',
+                );
+              },
+              child: SizedBox(
+                height: 150,
+                width: double.infinity,
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: Colors.grey[200],
+                    child: const Center(child: Icon(Icons.broken_image)),
                   ),
                 ),
-              ],
+              ),
             ),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/collections/sales-product/product-${product.name.replaceAll(' ', '-').toLowerCase()}',
-              );
-            },
           ),
 
-          // Description below image. Wrap in MouseRegion to detect hover and underline text.
-          MouseRegion(
-            onEnter: (_) => _setHover(true),
-            onExit: (_) => _setHover(false),
-            cursor: SystemMouseCursors.click,
-            child: Container(
-              // tighter box for the text area
-              height: 64,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-              alignment: Alignment.centerLeft,
+          // Small white box that only wraps the text; rounded bottom corners to match the card.
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+              ),
+            ),
+            child: MouseRegion(
+              onEnter: (_) => _setHover(true),
+              onExit: (_) => _setHover(false),
+              cursor: SystemMouseCursors.click,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -199,23 +293,19 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       decoration: _isHovering ? TextDecoration.underline : null,
                     ),
                   ),
+                  const SizedBox(height: 6),
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         '£${product.price.toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           decoration: TextDecoration.lineThrough,
-                          // add underline on hover while keeping line-through
-                          decorationStyle: TextDecorationStyle.solid,
                           color: Colors.grey,
                           fontSize: 12,
-                          shadows: _isHovering
-                              ? [
-                                  // small trick: combine underline by drawing a transparent underline via decoration on a second widget isn't straightforward; instead we keep lineThrough and underline on name
-                                ]
-                              : null,
                         ),
                       ),
+                      const SizedBox(width: 8),
                       Text(
                         '£${(product.price - product.discount).toStringAsFixed(2)}',
                         style: const TextStyle(
