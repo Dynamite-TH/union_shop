@@ -199,7 +199,6 @@ class _ProductItemCardState extends State<ProductItemCard> {
                       decoration: _isHovering ? TextDecoration.underline : null,
                     ),
                   ),
-                  const SizedBox(height: 6),
                   Row(
                     children: [
                       Text(
@@ -217,7 +216,6 @@ class _ProductItemCardState extends State<ProductItemCard> {
                               : null,
                         ),
                       ),
-                      const SizedBox(width: 8),
                       Text(
                         '£${(product.price - product.discount).toStringAsFixed(2)}',
                         style: const TextStyle(
