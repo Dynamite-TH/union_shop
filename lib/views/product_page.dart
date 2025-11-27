@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/Repositories/cart_manager.dart';
-import 'package:union_shop/views/home_page.dart';
+import 'package:union_shop/models/products.dart';
 
 class ProductPage extends StatefulWidget {
   final ProductItem? product;
@@ -31,14 +31,15 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     final p = widget.product ??
         ProductItem(
+          category: 'uncategorized',
+          id: 'placeholder',
           name: 'Placeholder Product',
           description:
               'This is a placeholder product description. Students should replace this with actual product data.',
           price: 0.0,
           discount: 0.0,
-          imageUrl:
+          image:
               'https://via.placeholder.com/600x400.png?text=Placeholder+Image',
-          tags: [],
         );
     final salePrice = (p.price - p.discount).clamp(0.0, double.infinity);
 
@@ -51,7 +52,7 @@ class _ProductPageState extends State<ProductPage> {
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
-            p.imageUrl,
+            p.image,
             width: isWide ? (screenWidth * 0.45) : double.infinity,
             height: isWide ? 420 : 300,
             fit: BoxFit.cover,
@@ -84,7 +85,7 @@ class _ProductPageState extends State<ProductPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: Image.network(
-                    p.imageUrl,
+                    p.image,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) =>
                         Container(color: Colors.grey[200]),
