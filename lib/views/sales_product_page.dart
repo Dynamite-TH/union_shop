@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/widgets/drawer.dart';
+import 'package:union_shop/views/product_page.dart';
 
 class SalesProductPage extends StatelessWidget {
   const SalesProductPage({Key? key}) : super(key: key);
@@ -282,11 +283,11 @@ class _ProductItemCardState extends State<ProductItemCard> {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            child: GestureDetector(
+                child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(
+                Navigator.push(
                   context,
-                  '/collections/sales-product/product-${product.name.replaceAll(' ', '-').toLowerCase()}',
+                  MaterialPageRoute(builder: (_) => ProductPage(product: product)),
                 );
               },
               child: SizedBox(
