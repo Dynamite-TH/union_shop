@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/sales_product_page.dart';
+import 'package:union_shop/Repositories/cart_manager.dart';
 
 class ProductPage extends StatefulWidget {
   final SalesProductItem? product;
@@ -241,10 +242,49 @@ class _ProductPageState extends State<ProductPage> {
             minimumSize: const Size.fromHeight(48),
             side: const BorderSide(color: Color(0xFF4d2963)),
           ),
-          onPressed: () {
-            // TODO: add to cart action
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Added to cart (placeholder)')));
+          onPressed: () async {
+            // Build a cart item from the product and current selections
+            final item = CartItem(
+              product: p,
+              color: _selectedColor ?? 'Default',
+              size: _selectedSize ?? 'M',
+              quantity: _quantity,
+            );
+
+            final confirmed = await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('Add to cart'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(p.name,
+                        style: const TextStyle(fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 8),
+                    Text('Color: ${item.color}'),
+                    Text('Size: ${item.size}'),
+                    Text('Quantity: ${item.quantity}'),
+                    const SizedBox(height: 8),
+                    Text('Total: £${item.total.toStringAsFixed(2)}'),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(false),
+                      child: const Text('Cancel')),
+                  ElevatedButton(
+                      onPressed: () => Navigator.of(ctx).pop(true),
+                      child: const Text('Add')),
+                ],
+              ),
+            );
+
+            if (confirmed == true) {
+              CartManager.instance.addItem(item);
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('Added to cart')));
+            }
           },
           child: const Text('ADD TO CART',
               style: TextStyle(fontWeight: FontWeight.w700)),
