@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:union_shop/views/home_page.dart';
+import 'package:union_shop/models/products.dart';
 
 class CartItem {
   final ProductItem product;
