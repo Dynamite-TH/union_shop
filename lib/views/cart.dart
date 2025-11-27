@@ -97,7 +97,8 @@ class _CartScreenState extends State<CartScreen> {
                                 Text(ci.product.description,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(color: Colors.black54)),
+                                    style:
+                                        const TextStyle(color: Colors.black54)),
                                 const SizedBox(height: 8),
                                 Row(
                                   children: [
@@ -119,7 +120,12 @@ class _CartScreenState extends State<CartScreen> {
                                     // Color
                                     DropdownButton<String>(
                                       value: ci.color,
-                                      items: ['Light Blue', 'Black', 'White', 'Default']
+                                      items: [
+                                        'Light Blue',
+                                        'Black',
+                                        'White',
+                                        'Default'
+                                      ]
                                           .map((c) => DropdownMenuItem(
                                                 value: c,
                                                 child: Text(c),
@@ -135,25 +141,34 @@ class _CartScreenState extends State<CartScreen> {
                                     Container(
                                       height: 36,
                                       decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey.shade300),
-                                          borderRadius: BorderRadius.circular(6)),
+                                          border: Border.all(
+                                              color: Colors.grey.shade300),
+                                          borderRadius:
+                                              BorderRadius.circular(6)),
                                       child: Row(
                                         children: [
                                           IconButton(
                                             icon: const Icon(Icons.remove),
-                                            onPressed: () => cart.updateQuantity(ci, ci.quantity - 1),
+                                            onPressed: () =>
+                                                cart.updateQuantity(
+                                                    ci, ci.quantity - 1),
                                             padding: EdgeInsets.zero,
-                                            visualDensity: VisualDensity.compact,
+                                            visualDensity:
+                                                VisualDensity.compact,
                                           ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
                                             child: Text('${ci.quantity}'),
                                           ),
                                           IconButton(
                                             icon: const Icon(Icons.add),
-                                            onPressed: () => cart.updateQuantity(ci, ci.quantity + 1),
+                                            onPressed: () =>
+                                                cart.updateQuantity(
+                                                    ci, ci.quantity + 1),
                                             padding: EdgeInsets.zero,
-                                            visualDensity: VisualDensity.compact,
+                                            visualDensity:
+                                                VisualDensity.compact,
                                           ),
                                         ],
                                       ),
@@ -171,14 +186,18 @@ class _CartScreenState extends State<CartScreen> {
 
                 // Footer: totals + checkout
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                   decoration: BoxDecoration(
-                      color: Colors.grey[50], borderRadius: BorderRadius.circular(6)),
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(6)),
                   child: Row(
                     children: [
                       Expanded(
-                          child: Text('Total: £${cart.total.toStringAsFixed(2)}',
-                              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700))),
+                          child: Text(
+                              'Total: £${cart.total.toStringAsFixed(2)}',
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w700))),
                       const SizedBox(width: 12),
                       ElevatedButton(
                         onPressed: () async {
@@ -186,10 +205,17 @@ class _CartScreenState extends State<CartScreen> {
                             context: context,
                             builder: (ctx) => AlertDialog(
                               title: const Text('Confirm checkout'),
-                              content: Text('Pay £${cart.total.toStringAsFixed(2)} now?'),
+                              content: Text(
+                                  'Pay £${cart.total.toStringAsFixed(2)} now?'),
                               actions: [
-                                TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
-                                ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), child: const Text('Confirm')),
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(ctx).pop(false),
+                                    child: const Text('Cancel')),
+                                ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.of(ctx).pop(true),
+                                    child: const Text('Confirm')),
                               ],
                             ),
                           );
@@ -198,7 +224,9 @@ class _CartScreenState extends State<CartScreen> {
                             // Simulate checkout
                             final total = cart.total;
                             cart.clear();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Checked out £${total.toStringAsFixed(2)}. Thank you!')));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    'Checked out £${total.toStringAsFixed(2)}. Thank you!')));
                           }
                         },
                         child: const Text('CHECKOUT'),
