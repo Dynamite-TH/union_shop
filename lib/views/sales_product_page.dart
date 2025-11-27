@@ -20,21 +20,40 @@ class SalesProductPage extends StatelessWidget {
   }
 }
 
-class SalesProductScreen extends StatelessWidget {
+class SalesProductScreen extends StatefulWidget {
   const SalesProductScreen({Key? key}) : super(key: key);
-  
+
+  @override
+  State<SalesProductScreen> createState() => _SalesProductScreenState();
+}
+
+class _SalesProductScreenState extends State<SalesProductScreen> {
+  String? _selectedTag;
+  late List<String> _allTags;
+
+  @override
+  void initState() {
+    super.initState();
+    // collect unique tags from salesProducts
+    final tagSet = <String>{};
+    for (final p in salesProducts) {
+      tagSet.addAll(p.tags);
+    }
+    _allTags = tagSet.toList()..sort();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
 
-
     // display-friendly selected tag name
     final dropdownWidth =
-        screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 420.0) : 320.0;
+        screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 320.0) : 200.0;
 
-
-    // dropdown width: keep it compact on larger screens but allow shrinking on small devices
+    final filtered = _selectedTag == null
+        ? salesProducts
+        : salesProducts.where((p) => p.tags.contains(_selectedTag)).toList();
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -68,57 +87,67 @@ class SalesProductScreen extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                'Filter by:',
-                style: TextStyle(fontSize: 16, color: Colors.black54),
+                'Use the filter below to find products on sale by category.',
+                style: TextStyle(fontSize: 14, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
             ),
+
+            // Filter dropdown (centered on wide/full screens)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              child: Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(right: 12.0),
-                    child: Icon(Icons.filter_list, color: Colors.black54),
-                  ),
-                  SizedBox(
-                    width: dropdownWidth,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey.shade300),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String?>(
-                          isExpanded: true,
-                          value: _selectedTag,
-                          hint: const Text('Select filter'),
-                          items: [
-                            const DropdownMenuItem<String?>(
-                              value: null,
-                              child: Text('All'),
-                            ),
-                            ..._allTags
-                                .map((tag) => DropdownMenuItem<String?>(
-                                      value: tag,
-                                      child: Text(tag),
-                                    ))
-                                .toList(),
-                          ],
-                          onChanged: (val) {
-                            setState(() {
-                              _selectedTag = val;
-                            });
-                          },
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+              // Center the filter row and constrain its maximum width so on
+              // very wide/full-screen windows the filter stays visually central.
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 700),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 12.0),
+                      child: Icon(Icons.filter_list, color: Colors.black54),
+                    ),
+                    SizedBox(
+                      width: dropdownWidth,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey.shade300),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String?>(
+                            isExpanded: true,
+                            value: _selectedTag,
+                            hint: const Text('Select filter'),
+                            items: [
+                              const DropdownMenuItem<String?>(
+                                value: null,
+                                child: Text('All'),
+                              ),
+                              ..._allTags
+                                  .map((tag) => DropdownMenuItem<String?>(
+                                        value: tag,
+                                        child: Text(tag),
+                                      ))
+                                  .toList(),
+                            ],
+                            onChanged: (val) {
+                              setState(() {
+                                _selectedTag = val;
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
+
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Divider(
@@ -126,9 +155,10 @@ class SalesProductScreen extends StatelessWidget {
                 thickness: 1,
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: salesProducts.isEmpty
+              child: filtered.isEmpty
                   ? const Center(child: Text('No sales products available.'))
                   : Center(
                       child: ConstrainedBox(
@@ -144,10 +174,9 @@ class SalesProductScreen extends StatelessWidget {
                             mainAxisSpacing: 5,
                             childAspectRatio: 0.75,
                           ),
-                          itemCount: salesProducts.length,
+                          itemCount: filtered.length,
                           itemBuilder: (context, index) {
-                            return ProductItemCard(
-                                product: salesProducts[index]);
+                            return ProductItemCard(product: filtered[index]);
                           },
                         ),
                       ),
@@ -166,6 +195,7 @@ class SalesProductItem {
   final String description;
   final double price;
   final double discount;
+  final List<String> tags;
   final String imageUrl;
 
   SalesProductItem({
@@ -173,8 +203,9 @@ class SalesProductItem {
     required this.description,
     required this.price,
     this.discount = 0.0,
+    List<String>? tags,
     required this.imageUrl,
-  });
+  }) : tags = tags ?? const [];
 }
 
 // Sample sales products data
@@ -184,13 +215,15 @@ final List<SalesProductItem> salesProducts = [
     description: 'A stylish t-shirt at a discounted price.',
     price: 9.99,
     discount: 2.00,
-    imageUrl: 'https://example.com/images/discounted_tshirt.jpg',
+    tags: ['clothing', 'tshirt', 'discount'],
+    imageUrl: 'assets/images/collections/sales.png',
   ),
   SalesProductItem(
     name: 'Sale Jeans',
     description: 'Comfortable jeans on sale now.',
     price: 29.99,
     discount: 5.00,
+    tags: ['clothing', 'jeans', 'discount'],
     imageUrl: 'https://example.com/images/sale_jeans.jpg',
   ),
   SalesProductItem(
@@ -198,8 +231,16 @@ final List<SalesProductItem> salesProducts = [
     description: 'A warm jacket available at clearance prices.',
     price: 49.99,
     discount: 10.00,
+    tags: ['clothing', 'jacket', 'clearance'],
     imageUrl: 'https://example.com/images/clearance_jacket.jpg',
   ),
+  SalesProductItem(
+      name: 'Bracelet',
+      description: 'An elegant bracelet perfect for any occasion.',
+      price: 19.99,
+      discount: 0.0,
+      tags: ['jewelry', 'bracelet'],
+      imageUrl: 'https://example.com/images/bracelet.jpg')
 ];
 
 class ProductItemCard extends StatefulWidget {
@@ -249,7 +290,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 );
               },
               child: SizedBox(
-                height: 150,
+                height: 200,
                 width: double.infinity,
                 child: Image.network(
                   product.imageUrl,
