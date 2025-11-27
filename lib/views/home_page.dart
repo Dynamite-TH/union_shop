@@ -7,6 +7,9 @@ import 'package:union_shop/views/sales_product_page.dart';
 import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/not_found.dart';
 import 'package:union_shop/views/cart.dart';
+import 'package:union_shop/models/products.dart';
+
+final List<ProductItem> products = <ProductItem>[];
 
 class UnionShopApp extends StatelessWidget {
   const UnionShopApp({super.key});
@@ -178,9 +181,7 @@ class HomeScreen extends StatelessWidget {
                           MediaQuery.of(context).size.width > 600 ? 2 : 1,
                       crossAxisSpacing: 24,
                       mainAxisSpacing: 48,
-                      children: [
-                        ProductItemCard(product: products[0]),
-                      ],
+                      children: [],
                     ),
                   ],
                 ),
@@ -210,58 +211,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class ProductItem {
-  final String name;
-  final String description;
-  final double price;
-  final double discount;
-  final List<String> tags;
-  final String imageUrl;
-
-  ProductItem({
-    required this.name,
-    required this.description,
-    required this.price,
-    this.discount = 0.0,
-    List<String>? tags,
-    required this.imageUrl,
-  }) : tags = tags ?? const [];
-}
-
 // Sample sales products data
-List<ProductItem> products = [
-  ProductItem(
-    name: 'Discounted T-Shirt',
-    description: 'A stylish t-shirt at a discounted price.',
-    price: 9.99,
-    tags: ['clothing', 'tshirt', 'discount'],
-    imageUrl: 'assets/images/collections/sales.png',
-  ),
-  ProductItem(
-    name: 'Sale Jeans',
-    description: 'Comfortable jeans on sale now.',
-    price: 29.99,
-    discount: 5.00,
-    tags: ['clothing', 'jeans', 'discount'],
-    imageUrl: 'https://example.com/images/sale_jeans.jpg',
-  ),
-  ProductItem(
-    name: 'Clearance Jacket',
-    description: 'A warm jacket available at clearance prices.',
-    price: 49.99,
-    discount: 10.00,
-    tags: ['clothing', 'jacket', 'clearance'],
-    imageUrl: 'https://example.com/images/clearance_jacket.jpg',
-  ),
-  ProductItem(
-      name: 'Bracelet',
-      description: 'An elegant bracelet perfect for any occasion.',
-      price: 19.99,
-      discount: 0.0,
-      tags: ['jewelry', 'bracelet'],
-      imageUrl: 'https://example.com/images/bracelet.jpg')
-];
-
 class ProductItemCard extends StatefulWidget {
   final ProductItem product;
 
@@ -311,7 +261,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 height: 350,
                 width: double.infinity,
                 child: Image.network(
-                  product.imageUrl,
+                  product.image,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: Colors.grey[200],
