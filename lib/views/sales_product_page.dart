@@ -113,13 +113,31 @@ final List<SalesProductItem> salesProducts = [
   ),
 ];
 
-class ProductItemCard extends StatelessWidget {
+class ProductItemCard extends StatefulWidget {
   final SalesProductItem product;
 
   const ProductItemCard({Key? key, required this.product}) : super(key: key);
 
   @override
+  State<ProductItemCard> createState() => _ProductItemCardState();
+}
+
+class _ProductItemCardState extends State<ProductItemCard> {
+  bool _isHovering = false;
+
+  void _setHover(bool hover) {
+    if (_isHovering != hover) {
+      setState(() {
+        _isHovering = hover;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final product = widget.product;
+    // compact card style adjustments handled per-Text widget below
+
     return Card(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -134,13 +152,13 @@ class ProductItemCard extends StatelessWidget {
               children: [
                 // Image
                 SizedBox(
-                  height: 200,
+                  height: 150,
                   width: double.infinity,
                   child: Image.network(
                     product.imageUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.grey[200],
+                      color: Colors.white,
                       child: const Center(child: Icon(Icons.broken_image)),
                     ),
                   ),
@@ -148,35 +166,67 @@ class ProductItemCard extends StatelessWidget {
               ],
             ),
             onPressed: () {
-              Navigator.pushNamed(context,
-                  '/collections/sales-product/product-${product.name.replaceAll(' ', '-').toLowerCase()}');
+              Navigator.pushNamed(
+                context,
+                '/collections/sales-product/product-${product.name.replaceAll(' ', '-').toLowerCase()}',
+              );
             },
           ),
 
-          // Description below image
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Colors.black),
+          // Description below image. Wrap in MouseRegion to detect hover and underline text.
+          MouseRegion(
+            onEnter: (_) => _setHover(true),
+            onExit: (_) => _setHover(false),
+            cursor: SystemMouseCursors.click,
+            child: Container(
+              // tighter box for the text area
+              height: 64,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextSpan(text: '${product.name} \n'),
-                  TextSpan(
-                    text: '£${product.price.toStringAsFixed(2)} ',
-                    style: const TextStyle(
-                      decoration: TextDecoration.lineThrough,
-                      color: Colors.grey,
+                  Text(
+                    product.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: Colors.black,
+                      decoration: _isHovering ? TextDecoration.underline : null,
                     ),
                   ),
-                  TextSpan(
-                    text:
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Text(
+                        '£${product.price.toStringAsFixed(2)}',
+                        style: TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          // add underline on hover while keeping line-through
+                          decorationStyle: TextDecorationStyle.solid,
+                          color: Colors.grey,
+                          fontSize: 12,
+                          shadows: _isHovering
+                              ? [
+                                  // small trick: combine underline by drawing a transparent underline via decoration on a second widget isn't straightforward; instead we keep lineThrough and underline on name
+                                ]
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
                         '£${(product.price - product.discount).toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.black,
-                    ),
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
