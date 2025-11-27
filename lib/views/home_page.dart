@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/Repositories/union_shop_repository.dart';
 import 'package:union_shop/views/about_us.dart';
-import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/collections.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
 import 'package:union_shop/views/widgets/drawer.dart';
 import 'package:union_shop/views/sales_product_page.dart';
+import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/not_found.dart';
 
 class UnionShopApp extends StatelessWidget {
@@ -28,6 +28,30 @@ class UnionShopApp extends StatelessWidget {
         '/about_us': (context) => const AboutUsScreen(),
         '/collections': (context) => const CollectionsScreen(),
         '/collections/sales-product': (context) => const SalesProductScreen(),
+      },
+      // Dynamic routes (e.g. /collections/sales-product/<product-slug>)
+      onGenerateRoute: (settings) {
+        final name = settings.name ?? '';
+        const prefix = '/collections/sales-product/';
+        if (name.startsWith(prefix)) {
+          final slug = name.substring(prefix.length);
+          // Try to find the product with a matching slug
+          try {
+            final matched = salesProducts.firstWhere(
+                (p) => p.name.replaceAll(' ', '-').toLowerCase() == slug);
+            return MaterialPageRoute(
+              builder: (context) => ProductPage(product: matched),
+              settings: settings,
+            );
+          } catch (_) {
+            // Not found — fall through to unknown route
+            return MaterialPageRoute(
+              builder: (context) => const PageNotFoundScreen(),
+              settings: settings,
+            );
+          }
+        }
+        return null;
       },
       // If a route is not found, show the 404 page
       onUnknownRoute: (settings) {
