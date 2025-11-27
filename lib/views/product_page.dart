@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
-import 'package:union_shop/views/sales_product_page.dart';
 import 'package:union_shop/Repositories/cart_manager.dart';
+import 'package:union_shop/views/home_page.dart';
 
 class ProductPage extends StatefulWidget {
-  final SalesProductItem? product;
+  final ProductItem? product;
 
   const ProductPage({super.key, this.product});
 
@@ -30,7 +30,7 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     final p = widget.product ??
-        SalesProductItem(
+        ProductItem(
           name: 'Placeholder Product',
           description:
               'This is a placeholder product description. Students should replace this with actual product data.',
@@ -132,7 +132,7 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             // Color
             Expanded(
-              flex: 3,
+              flex: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -163,7 +163,7 @@ class _ProductPageState extends State<ProductPage> {
 
             // Size
             Expanded(
-              flex: 2,
+              flex: 0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
