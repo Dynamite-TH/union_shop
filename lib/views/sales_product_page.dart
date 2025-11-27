@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/home_page.dart';
 
 class SalesProductPage extends StatelessWidget {
   const SalesProductPage({Key? key}) : super(key: key);
@@ -33,9 +34,9 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
   @override
   void initState() {
     super.initState();
-    // collect unique tags from salesProducts
+    // collect unique tags from products
     final tagSet = <String>{};
-    for (final p in salesProducts) {
+    for (final p in products) {
       tagSet.addAll(p.tags);
     }
     _allTags = tagSet.toList()..sort();
@@ -51,8 +52,8 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
         screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 320.0) : 200.0;
 
     final filtered = _selectedTag == null
-        ? salesProducts
-        : salesProducts.where((p) => p.tags.contains(_selectedTag)).toList();
+        ? products
+        : products.where((p) => p.tags.contains(_selectedTag)).toList();
 
     return Scaffold(
       appBar: const CustomAppBar(),
@@ -188,61 +189,9 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
   }
 }
 
-class SalesProductItem {
-  final String name;
-  final String description;
-  final double price;
-  final double discount;
-  final List<String> tags;
-  final String imageUrl;
-
-  SalesProductItem({
-    required this.name,
-    required this.description,
-    required this.price,
-    this.discount = 0.0,
-    List<String>? tags,
-    required this.imageUrl,
-  }) : tags = tags ?? const [];
-}
-
-// Sample sales products data
-final List<SalesProductItem> salesProducts = [
-  SalesProductItem(
-    name: 'Discounted T-Shirt',
-    description: 'A stylish t-shirt at a discounted price.',
-    price: 9.99,
-    discount: 2.00,
-    tags: ['clothing', 'tshirt', 'discount'],
-    imageUrl: 'assets/images/collections/sales.png',
-  ),
-  SalesProductItem(
-    name: 'Sale Jeans',
-    description: 'Comfortable jeans on sale now.',
-    price: 29.99,
-    discount: 5.00,
-    tags: ['clothing', 'jeans', 'discount'],
-    imageUrl: 'https://example.com/images/sale_jeans.jpg',
-  ),
-  SalesProductItem(
-    name: 'Clearance Jacket',
-    description: 'A warm jacket available at clearance prices.',
-    price: 49.99,
-    discount: 10.00,
-    tags: ['clothing', 'jacket', 'clearance'],
-    imageUrl: 'https://example.com/images/clearance_jacket.jpg',
-  ),
-  SalesProductItem(
-      name: 'Bracelet',
-      description: 'An elegant bracelet perfect for any occasion.',
-      price: 19.99,
-      discount: 0.0,
-      tags: ['jewelry', 'bracelet'],
-      imageUrl: 'https://example.com/images/bracelet.jpg')
-];
 
 class ProductItemCard extends StatefulWidget {
-  final SalesProductItem product;
+  final ProductItem product;
 
   const ProductItemCard({Key? key, required this.product}) : super(key: key);
 
