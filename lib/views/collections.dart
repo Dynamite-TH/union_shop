@@ -51,6 +51,12 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
 
+    // display-friendly selected tag name
+    final displaySelected = _selectedTag ?? 'All';
+    // dropdown width: keep it compact on larger screens but allow shrinking on small devices
+    final dropdownWidth =
+        screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 420.0) : 320.0;
+
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -73,53 +79,52 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
               ),
             ),
 
-            // Tag filter chips (horizontal)
+            // Tag filter dropdown
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: ChoiceChip(
-                        label: const Text('All'),
-                        selected: _selectedTag == null,
-                        selectedColor: const Color(0xFF4d2963),
-                        onSelected: (sel) {
-                          setState(() {
-                            _selectedTag = null;
-                          });
-                        },
-                        labelStyle: TextStyle(
-                          color: _selectedTag == null
-                              ? Colors.white
-                              : Colors.black,
+              child: Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 12.0),
+                    child: Icon(Icons.filter_list, color: Colors.black54),
+                  ),
+                  SizedBox(
+                    width: dropdownWidth,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String?>(
+                          isExpanded: true,
+                          value: _selectedTag,
+                          hint: const Text('Select filter'),
+                          items: [
+                            const DropdownMenuItem<String?>(
+                              value: null,
+                              child: Text('All'),
+                            ),
+                            ..._allTags
+                                .map((tag) => DropdownMenuItem<String?>(
+                                      value: tag,
+                                      child: Text(tag),
+                                    ))
+                                .toList(),
+                          ],
+                          onChanged: (val) {
+                            setState(() {
+                              _selectedTag = val;
+                            });
+                          },
                         ),
                       ),
                     ),
-                    ..._allTags.map((tag) {
-                      final selected = _selectedTag == tag;
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: ChoiceChip(
-                          label: Text(tag),
-                          selected: selected,
-                          selectedColor: const Color(0xFF4d2963),
-                          onSelected: (sel) {
-                            setState(() {
-                              _selectedTag = sel ? tag : null;
-                            });
-                          },
-                          labelStyle: TextStyle(
-                            color: selected ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
 
@@ -132,7 +137,7 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 40.0),
                       child: Center(
                         child: Text(
-                          'No collections match "$_selectedTag"',
+                          'No collections match "$displaySelected"',
                           style: const TextStyle(
                               fontSize: 16, color: Colors.black54),
                         ),
