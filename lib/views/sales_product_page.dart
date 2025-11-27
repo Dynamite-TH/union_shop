@@ -15,7 +15,7 @@ class SalesProductPage extends StatelessWidget {
       ),
       home: const SalesProductScreen(),
       // By default, the app starts at the '/' route, which is the HomeScreen
-      initialRoute: 'collections/sales_product',
+      initialRoute: 'collections/sales-product',
     );
   }
 }
@@ -25,16 +25,29 @@ class SalesProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 1 : 4);
+
     return Scaffold(
       appBar: const CustomAppBar(),
       drawer: const AppDrawer(),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(12),
-        itemCount: salesProducts.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
-        itemBuilder: (context, index) {
-          return ProductItemCard(product: salesProducts[index]);
-        },
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: salesProducts.isEmpty
+            ? const Center(child: Text('No sales products available.'))
+            : GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                  childAspectRatio: 0.75,
+                ),
+                itemCount: salesProducts.length,
+                itemBuilder: (context, index) {
+                  return ProductItemCard(product: salesProducts[index]);
+                },
+              ),
       ),
     );
   }
@@ -82,7 +95,7 @@ class ProductItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       clipBehavior: Clip.hardEdge,
       child: Column(
@@ -106,50 +119,41 @@ class ProductItemCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Name + price overlay at bottom-right
-                Positioned(
-                  bottom: 8,
-                  right: 8,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          product.name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '\$${(product.price - product.discount).toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
             onPressed: () {
-              // TODO: navigate to product detail page if available
+              Navigator.pushNamed(context,
+                  '/collections/sales-product/product-${product.name.replaceAll(' ', '-').toLowerCase()}');
             },
           ),
 
           // Description below image
           Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(
-              product.description,
-              style: Theme.of(context).textTheme.bodyMedium,
+            padding: const EdgeInsets.all(8.0),
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: Colors.black),
+                children: [
+                  TextSpan(text: '${product.name} \n'),
+                  TextSpan(
+                    text: '£${product.price.toStringAsFixed(2)} ',
+                    style: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  TextSpan(
+                    text:
+                        '£${(product.price - product.discount).toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
