@@ -177,13 +177,14 @@ const List<_CollectionItem> _demoCollections = [
   _CollectionItem(
       'Autumn Favourites',
       '/assets/images/collections/autumn_favourites.png',
-      '/',
+      '/autumn-favourites',
       ['autumn', 'fall', 'clothing']),
   _CollectionItem('Sales', '/assets/images/collections/sales.png',
       '/sales-product', ['discount', 'clothing', 'accessories']),
-  _CollectionItem('Hoodies', '', '/', ['hoodies', 'sweatshirts', 'clothing']),
-  _CollectionItem('T-Shirts', '', '/', ['tshirt', 'tees', 'clothing']),
-  _CollectionItem('Accessories', '', '/about_us', ['accessories']),
+  _CollectionItem('Hoodies', '', '/collections/hoodies',
+      ['hoodies', 'sweatshirts', 'clothing']),
+  _CollectionItem('T-Shirts', '', '/t-shirts', ['tshirt', 'tees', 'clothing']),
+  _CollectionItem('Accessories', '', '/accessories', ['accessories']),
 ];
 
 class _CollectionItem {
