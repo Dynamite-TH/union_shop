@@ -34,11 +34,11 @@ class UnionShopApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         final name = settings.name ?? '';
         const prefix = '/collections/sales-product/';
-        if (name.startsWith(prefix)) {
+        if (name.startsWith(prefix) || name.startsWith('/')) {
           final slug = name.substring(prefix.length);
           // Try to find the product with a matching slug
           try {
-            final matched = salesProducts.firstWhere(
+            final matched = products.firstWhere(
                 (p) => p.name.replaceAll(' ', '-').toLowerCase() == slug);
             return MaterialPageRoute(
               builder: (context) => ProductPage(product: matched),
@@ -178,31 +178,8 @@ class HomeScreen extends StatelessWidget {
                           MediaQuery.of(context).size.width > 600 ? 2 : 1,
                       crossAxisSpacing: 24,
                       mainAxisSpacing: 48,
-                      children: const [
-                        ProductCard(
-                          title: 'Placeholder Product 1',
-                          price: '£10.00',
-                          imageUrl:
-                              'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                        ),
-                        ProductCard(
-                          title: 'Placeholder Product 2',
-                          price: '£15.00',
-                          imageUrl:
-                              'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                        ),
-                        ProductCard(
-                          title: 'Placeholder Product 3',
-                          price: '£20.00',
-                          imageUrl:
-                              'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                        ),
-                        ProductCard(
-                          title: 'Placeholder Product 4',
-                          price: '£25.00',
-                          imageUrl:
-                              'https://shop.upsu.net/cdn/shop/files/PortsmouthCityMagnet1_1024x1024@2x.jpg?v=1752230282',
-                        ),
+                      children: [
+                        ProductItemCard(product: products[0]),
                       ],
                     ),
                   ],
@@ -233,56 +210,183 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class ProductCard extends StatelessWidget {
-  final String title;
-  final String price;
+class ProductItem {
+  final String name;
+  final String description;
+  final double price;
+  final double discount;
+  final List<String> tags;
   final String imageUrl;
 
-  const ProductCard({
-    super.key,
-    required this.title,
+  ProductItem({
+    required this.name,
+    required this.description,
     required this.price,
+    this.discount = 0.0,
+    List<String>? tags,
     required this.imageUrl,
-  });
+  }) : tags = tags ?? const [];
+}
+
+// Sample sales products data
+List<ProductItem> products = [
+  ProductItem(
+    name: 'Discounted T-Shirt',
+    description: 'A stylish t-shirt at a discounted price.',
+    price: 9.99,
+    tags: ['clothing', 'tshirt', 'discount'],
+    imageUrl: 'assets/images/collections/sales.png',
+  ),
+  ProductItem(
+    name: 'Sale Jeans',
+    description: 'Comfortable jeans on sale now.',
+    price: 29.99,
+    discount: 5.00,
+    tags: ['clothing', 'jeans', 'discount'],
+    imageUrl: 'https://example.com/images/sale_jeans.jpg',
+  ),
+  ProductItem(
+    name: 'Clearance Jacket',
+    description: 'A warm jacket available at clearance prices.',
+    price: 49.99,
+    discount: 10.00,
+    tags: ['clothing', 'jacket', 'clearance'],
+    imageUrl: 'https://example.com/images/clearance_jacket.jpg',
+  ),
+  ProductItem(
+      name: 'Bracelet',
+      description: 'An elegant bracelet perfect for any occasion.',
+      price: 19.99,
+      discount: 0.0,
+      tags: ['jewelry', 'bracelet'],
+      imageUrl: 'https://example.com/images/bracelet.jpg')
+];
+
+class ProductItemCard extends StatefulWidget {
+  final ProductItem product;
+
+  const ProductItemCard({Key? key, required this.product}) : super(key: key);
+
+  @override
+  State<ProductItemCard> createState() => _ProductItemCardState();
+}
+
+class _ProductItemCardState extends State<ProductItemCard> {
+  bool _isHovering = false;
+
+  void _setHover(bool hover) {
+    if (_isHovering != hover) {
+      setState(() {
+        _isHovering = hover;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        UnionShopRepository().navigateToProduct(context);
-      },
+    final product = widget.product;
+
+    return Card(
+      color: Colors.transparent,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      clipBehavior: Clip.hardEdge,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(
-            child: Image.network(
-              imageUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[300],
-                  child: const Center(
-                    child: Icon(Icons.image_not_supported, color: Colors.grey),
-                  ),
-                );
+          // Image (top) — clipped to top corners
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                final slug = product.name.replaceAll(' ', '-').toLowerCase();
+                Navigator.pushNamed(
+                    context, '/collections/sales-product/$slug');
               },
+              child: SizedBox(
+                height: 350,
+                width: double.infinity,
+                child: Image.network(
+                  product.imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: Colors.grey[200],
+                    child: const Center(child: Icon(Icons.broken_image)),
+                  ),
+                ),
+              ),
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 4),
-              Text(
-                title,
-                style: const TextStyle(fontSize: 14, color: Colors.black),
-                maxLines: 2,
+
+          // Small white box that only wraps the text; rounded bottom corners to match the card.
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               ),
-              const SizedBox(height: 4),
-              Text(
-                price,
-                style: const TextStyle(fontSize: 13, color: Colors.grey),
+            ),
+            child: MouseRegion(
+              onEnter: (_) => _setHover(true),
+              onExit: (_) => _setHover(false),
+              cursor: SystemMouseCursors.click,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                      style: ButtonStyle(
+                        foregroundColor: WidgetStateProperty.all(Colors.white),
+                        textStyle: WidgetStateProperty.all(
+                          TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: Colors.black,
+                            decoration:
+                                _isHovering ? TextDecoration.underline : null,
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        final slug =
+                            product.name.replaceAll(' ', '-').toLowerCase();
+                        Navigator.pushNamed(
+                            context, '/collections/sales-product/$slug');
+                      },
+                      child: Text(product.name)),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '£${product.price.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '£${(product.price - product.discount).toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ],
       ),
