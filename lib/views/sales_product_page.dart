@@ -69,7 +69,6 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
     final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
 
     // display-friendly selected tag name
-    final displaySelected = _selectedTag ?? 'All';
     final filtered = _products.where((p) {
       final isSales = p.category.toLowerCase().trim() == 'sales';
       if (_selectedTag == null) {
