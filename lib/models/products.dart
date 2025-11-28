@@ -39,7 +39,7 @@ class ProductItem {
       price: parsePrice(json['price']),
       discount: parsePrice(json['discount']),
       image: json['image']?.toString() ?? '',
-      category: json['category']?.toString() ?? 'uncategorized',
+      category: json['catagory']?.toString() ?? 'uncategorized',
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
               [],
