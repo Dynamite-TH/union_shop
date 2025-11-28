@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/views/collections.dart';
+import '../test_utils.dart';
 
 void main() {
   testWidgets('CollectionsScreen renders demo collections', (tester) async {
+    HttpOverrides.global = TestHttpOverrides();
     await tester.pumpWidget(const MaterialApp(home: CollectionsScreen()));
 
     // Title is present
