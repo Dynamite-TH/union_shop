@@ -1,6 +1,6 @@
 [
     {
-        "catagory": "sale",
+        "catagory": "sales",
         "name": "Union Tee",
         "price": 19.99,
         "description": "Soft cotton t-shirt with embroidered university logo.",
@@ -13,7 +13,7 @@
         "image": "assets/images/products/union_tee.png"
     },
     {
-        "catagory": "sale",
+        "catagory": "sales",
         "name": "Campus Hoodie",
         "price": 49.99,
         "description": "Fleece-lined hoodie with front pocket and printed crest.",
@@ -52,7 +52,7 @@
         "image": "assets/images/products/travel_mug.png"
     },
     {
-        "catagory": "sale",
+        "catagory": "sales",
         "name": "Wireless Earbuds",
         "price": 79.99,
         "description": "Bluetooth earbuds with charging case and noise isolation.",
@@ -78,7 +78,7 @@
         "image": "assets/images/products/canvas_tote.png"
     },
     {
-        "catagory": "sale",
+        "catagory": "sales",
         "name": "Desk Lamp LED",
         "price": 29.99,
         "description": "Adjustable LED desk lamp with dimmer and USB charging port.",
@@ -91,7 +91,7 @@
         "image": "assets/images/products/desk_lamp.png"
     },
     {
-        "catagory": "sale",
+        "catagory": "sales",
         "name": "Laptop Sleeve 13\"",
         "price": 21.5,
         "description": "Padded neoprene sleeve, slim fit for 13-inch laptops.",
@@ -117,11 +117,11 @@
         "image": "assets/images/products/pen_set.png"
     },
     {
-        "catagory": "sale",
+        "catagory": "sales",
         "name": "Campus Scarf",
         "price": 17.99,
         "description": "Warm knit scarf with school colors and fringe.",
-        "discount": 25,
+        "discount": 5,
         "tags": [
             "clothing",
             "winter",
