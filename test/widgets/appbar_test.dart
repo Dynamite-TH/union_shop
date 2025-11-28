@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/views/widgets/appbar.dart';
+import '../test_utils.dart';
 
 void main() {
   testWidgets('CustomAppBar shows banner and icons', (tester) async {
+    HttpOverrides.global = TestHttpOverrides();
     await tester.pumpWidget(const MaterialApp(
       home: Scaffold(appBar: CustomAppBar()),
     ));
