@@ -46,8 +46,12 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
   Future<void> _initTags() async {
     // collect unique tags from asynchronously loaded products
     final loaded = await loadProductsFromAsset();
+    debugPrint('Loaded ${loaded.length} products for sales page');
     final tagSet = <String>{};
     for (final p in loaded) {
+      debugPrint(
+        'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}',
+      );
       tagSet.addAll(p.tags);
     }
     final tags = tagSet.toList()..sort();
@@ -65,11 +69,16 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
     final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
 
     // display-friendly selected tag name
-    final displayed = _products
-        .where((p) => _selectedTag == null
-            ? p.category == 'sales'
-            : p.tags.contains(_selectedTag) && p.category == 'sales')
-        .toList();
+    final displaySelected = _selectedTag ?? 'All';
+    final filtered = _products.where((p) {
+      final isSales = p.category.toLowerCase().trim() == 'sales';
+      if (_selectedTag == null) {
+        return isSales;
+      } else {
+        return isSales && p.tags.contains(_selectedTag);
+      }
+    }).toList();
+
     final dropdownWidth =
         screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 320.0) : 200.0;
 
@@ -173,7 +182,33 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
                 thickness: 1,
               ),
             ),
-            for (final p in displayed) ProductItemCard(product: p),
+
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: filtered.isEmpty
+                  ? const Center(child: Text('No sales products available.'))
+                  : Center(
+                      child: ConstrainedBox(
+                        // Keep the grid centered and readable on wide screens
+                        constraints: const BoxConstraints(maxWidth: 1200),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            childAspectRatio: 0.75,
+                          ),
+                          itemCount: filtered.length,
+                          itemBuilder: (context, index) {
+                            return ProductItemCard(product: filtered[index]);
+                          },
+                        ),
+                      ),
+                    ),
+            ),
           ],
         ),
       ),
@@ -204,108 +239,101 @@ class _ProductItemCardState extends State<ProductItemCard> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    final category = product.category;
-    if (category != 'sales') {
-      return const SizedBox.shrink(); // Skip non-sales products
-    } else {
-      return Card(
-        color: Colors.transparent,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        clipBehavior: Clip.hardEdge,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Image (top) — clipped to top corners
-            ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  final slug = product.name.replaceAll(' ', '-').toLowerCase();
-                  Navigator.pushNamed(
-                      context, '/collections/sales-product/$slug');
-                },
-                child: SizedBox(
-                  height: 200,
-                  width: double.infinity,
-                  child: Image.network(
-                    product.image,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.grey[200],
-                      child: const Center(child: Icon(Icons.broken_image)),
-                    ),
+    return Card(
+      color: Colors.transparent,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      clipBehavior: Clip.hardEdge,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Image (top) — clipped to top corners
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(8),
+              topRight: Radius.circular(8),
+            ),
+            child: GestureDetector(
+              onTap: () {
+                final slug = product.name.replaceAll(' ', '-').toLowerCase();
+                Navigator.pushNamed(
+                    context, '/collections/sales-product/$slug');
+              },
+              child: SizedBox(
+                height: 200,
+                width: double.infinity,
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: Colors.grey[200],
+                    child: const Center(child: Icon(Icons.broken_image)),
                   ),
                 ),
               ),
             ),
+          ),
 
-            // Small white box that only wraps the text; rounded bottom corners to match the card.
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-              alignment: Alignment.centerLeft,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
-                ),
-              ),
-              child: MouseRegion(
-                onEnter: (_) => _setHover(true),
-                onExit: (_) => _setHover(false),
-                cursor: SystemMouseCursors.click,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: Colors.black,
-                        decoration:
-                            _isHovering ? TextDecoration.underline : null,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '£${product.price.toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '£${(product.price - product.discount).toStringAsFixed(2)}',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          // Small white box that only wraps the text; rounded bottom corners to match the card.
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+            alignment: Alignment.centerLeft,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
               ),
             ),
-          ],
-        ),
-      );
-    }
+            child: MouseRegion(
+              onEnter: (_) => _setHover(true),
+              onExit: (_) => _setHover(false),
+              cursor: SystemMouseCursors.click,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: Colors.black,
+                      decoration: _isHovering ? TextDecoration.underline : null,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '£${product.price.toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '£${(product.price - (product.price * (product.discount / 100))).toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

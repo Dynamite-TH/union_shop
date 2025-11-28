@@ -9,8 +9,6 @@ import 'package:union_shop/views/not_found.dart';
 import 'package:union_shop/views/cart.dart';
 import 'package:union_shop/models/products.dart';
 
-final List<ProductItem> products = <ProductItem>[];
-
 class UnionShopApp extends StatelessWidget {
   const UnionShopApp({super.key});
 
@@ -41,7 +39,7 @@ class UnionShopApp extends StatelessWidget {
           final slug = name.substring(prefix.length);
           // Try to find the product with a matching slug
           try {
-            final matched = products.firstWhere(
+            final matched = _products.firstWhere(
                 (p) => p.name.replaceAll(' ', '-').toLowerCase() == slug);
             return MaterialPageRoute(
               builder: (context) => ProductPage(product: matched),
@@ -68,8 +66,40 @@ class UnionShopApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+List<ProductItem> _products = [];
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  // store loaded products for use in build
+  @override
+  void initState() {
+    super.initState();
+    // start async tag loading
+    _initTags();
+  }
+
+  Future<void> _initTags() async {
+    // collect unique tags from asynchronously loaded products
+    final loaded = await loadProductsFromAsset();
+    debugPrint('Loaded ${loaded.length} products for sales page');
+    for (final p in loaded) {
+      debugPrint(
+        'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}',
+      );
+    }
+    if (mounted) {
+      setState(() {
+        _products = loaded;
+      });
+    }
+  }
 
   void placeholderCallbackForButtons() {
     UnionShopRepository().placeholderCallbackForButtons();
