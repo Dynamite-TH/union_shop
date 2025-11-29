@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/models/products.dart';
+import '../test_utils.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUpAll(() {
+    HttpOverrides.global = TestHttpOverrides();
+  });
 
   group('ProductItem.fromJson', () {
     test('parses numeric price and tags correctly', () {
