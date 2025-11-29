@@ -51,42 +51,49 @@ void main() {
     final observer = _TestObserver();
     final repo = UnionShopRepository();
 
-    await tester.pumpWidget(MaterialApp(
-      navigatorObservers: [observer],
-      routes: {
-        '/': (ctx) => const Scaffold(body: Text('HOME')),
-        '/product': (ctx) => const Scaffold(body: Text('PRODUCT')),
-        '/collections': (ctx) => const Scaffold(body: Text('COL')),
-        '/about_us': (ctx) => const Scaffold(body: Text('ABOUT')),
-        'collections/sales-product': (ctx) =>
-            const Scaffold(body: Text('SALES')),
-        '/cart': (ctx) => const Scaffold(body: Text('CART')),
-      },
-      home: const Scaffold(body: Text('ROOT')),
-    ));
+    // For each navigation helper, pump a fresh app and call the nav helper
+    final routes = {
+      '/': (ctx) => const Scaffold(body: Text('HOME')),
+      '/product': (ctx) => const Scaffold(body: Text('PRODUCT')),
+      '/collections': (ctx) => const Scaffold(body: Text('COL')),
+      '/about_us': (ctx) => const Scaffold(body: Text('ABOUT')),
+      'collections/sales-product': (ctx) => const Scaffold(body: Text('SALES')),
+      '/cart': (ctx) => const Scaffold(body: Text('CART')),
+    };
 
-    // Call navigation methods and ensure routes are pushed
-    repo.navigateToHome(tester.element(find.text('ROOT')));
+    await tester.pumpWidget(MaterialApp(initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToHome(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, '/');
 
-    repo.navigateToProduct(tester.element(find.text('HOME')));
+    await tester.pumpWidget(MaterialApp(initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToProduct(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, '/product');
 
-    repo.navigateToCollections(tester.element(find.text('PRODUCT')));
+    await tester.pumpWidget(MaterialApp(initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToCollections(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, '/collections');
 
-    repo.navigateToAboutUs(tester.element(find.text('COL')));
+    await tester.pumpWidget(MaterialApp(initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToAboutUs(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, '/about_us');
 
-    repo.navigateToSalesProduct(tester.element(find.text('ABOUT')));
+    await tester.pumpWidget(MaterialApp(initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToSalesProduct(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, 'collections/sales-product');
 
-    repo.navigateToCart(tester.element(find.text('SALES')));
+    await tester.pumpWidget(MaterialApp(initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToCart(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, '/cart');
 
