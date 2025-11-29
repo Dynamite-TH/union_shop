@@ -12,7 +12,8 @@ void main() {
     HttpOverrides.global = TestHttpOverrides();
   });
 
-  testWidgets('Sales page shows header and either products or empty state', (tester) async {
+  testWidgets('Sales page shows header and either products or empty state',
+      (tester) async {
     await tester.pumpWidget(const MaterialApp(home: SalesProductScreen()));
     await tester.pumpAndSettle();
 
@@ -29,7 +30,8 @@ void main() {
     }
   });
 
-  testWidgets('ProductItemCard displays product name and prices', (tester) async {
+  testWidgets('ProductItemCard displays product name and prices',
+      (tester) async {
     final product = ProductItem(
       id: 's1',
       name: 'Sale Product',
@@ -40,7 +42,8 @@ void main() {
       category: 'sales',
     );
 
-    await tester.pumpWidget(MaterialApp(home: Scaffold(body: ProductItemCard(product: product))));
+    await tester.pumpWidget(
+        MaterialApp(home: Scaffold(body: ProductItemCard(product: product))));
     await tester.pumpAndSettle();
 
     expect(find.text('Sale Product'), findsOneWidget);
