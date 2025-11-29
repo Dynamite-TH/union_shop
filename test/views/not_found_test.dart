@@ -15,6 +15,9 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: PageNotFoundScreen()));
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('404 - The page you are looking for does not exist.'), findsOneWidget);
+    expect(
+        find.textContaining(
+            '404 - The page you are looking for does not exist.'),
+        findsOneWidget);
   });
 }
