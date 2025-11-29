@@ -12,16 +12,22 @@ class TestHttpOverrides extends HttpOverrides {
 }
 
 class _FakeHttpClient implements HttpClient {
+  bool _autoUncompress = true;
+
   @override
-  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+  bool get autoUncompress => _autoUncompress;
+
+  @override
+  set autoUncompress(bool v) => _autoUncompress = v;
 
   @override
   Future<HttpClientRequest> getUrl(Uri url) async => _FakeRequest();
+
+  @override
+  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 class _FakeRequest implements HttpClientRequest {
-  final _controller = StreamController<List<int>>();
-
   @override
   Future<HttpClientResponse> close() async {
     // 1x1 PNG (transparent)
@@ -108,13 +114,22 @@ class _FakeResponse extends Stream<List<int>> implements HttpClientResponse {
   @override
   int get statusCode => 200;
 
+  // Provide the content length so image loading (which checks this) works
+  @override
+  int get contentLength => _bytes.length;
+
+  // Indicate no compression to satisfy image decoding checks
+  @override
+  HttpClientResponseCompressionState get compressionState =>
+      HttpClientResponseCompressionState.notCompressed;
+
   @override
   StreamSubscription<List<int>> listen(void Function(List<int>)? onData,
       {Function? onError, void Function()? onDone, bool? cancelOnError}) {
     final controller = StreamController<List<int>>();
     controller.add(_bytes);
     controller.close();
-    return controller.stream.listen(onData as void Function(List<int>)?,
+    return controller.stream.listen(onData ?? (_) {},
         onError: onError, onDone: onDone, cancelOnError: cancelOnError);
   }
 
