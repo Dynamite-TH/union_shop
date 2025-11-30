@@ -219,21 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // Footer
-            Container(
-              width: double.infinity,
-              color: Colors.grey[50],
-              padding: const EdgeInsets.all(24),
-              child: const Text(
-                'Contact Email: info@example.com / Phone: 123-456-7890 \n'
-                '© 2024 Union Shop. All rights reserved. \n'
-                'Privacy Policy | Terms of Service',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            const FooterWidget(),
           ],
         ),
       ),

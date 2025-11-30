@@ -331,6 +331,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
               ),
             ),
           ),
+          const FooterWidget(),
         ],
       ),
     );

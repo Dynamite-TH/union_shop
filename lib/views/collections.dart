@@ -166,6 +166,7 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
                       },
                     ),
             ),
+            const FooterWidget(),
           ],
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/common_widgets.dart';
 
-
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({Key? key}) : super(key: key);
 
@@ -19,18 +18,19 @@ class AboutUsPage extends StatelessWidget {
     );
   }
 }
-  class AboutUsScreen extends StatelessWidget {
+
+class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(),
+    return const Scaffold(
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
             // About Us Content
-            const SizedBox(
+            SizedBox(
               child: Padding(
                 padding: EdgeInsets.all(40.0),
                 child: Column(
@@ -64,21 +64,7 @@ class AboutUsPage extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              color: Colors.grey[50],
-              padding: const EdgeInsets.all(24),
-              child: const Text(
-                'Contact Email: info@example.com / Phone: 123-456-7890 \n'
-                '© 2024 Union Shop. All rights reserved. \n'
-                'Privacy Policy | Terms of Service',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            FooterWidget(),
           ],
         ),
       ),

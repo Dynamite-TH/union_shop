@@ -329,16 +329,7 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
       // Footer (keep placeholder footer to match student exercises/tests)
-      bottomNavigationBar: Container(
-        width: double.infinity,
-        color: Colors.grey[50],
-        padding: const EdgeInsets.all(16),
-        child: const Text(
-          'Placeholder Footer\nStudents should customise this footer section',
-          style: TextStyle(color: Colors.grey, fontSize: 14),
-          textAlign: TextAlign.center,
-        ),
-      ),
+      bottomNavigationBar: const FooterWidget(),
     );
   }
 }
