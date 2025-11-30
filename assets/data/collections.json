@@ -18,5 +18,10 @@
         "name": "Accessories",
         "description": "Enhance your look with our curated accessories collection, offering a range of stylish and functional items. From durable notebooks to insulated travel mugs, our accessories are designed to complement your lifestyle. Perfect for students and professionals alike, these essentials add a touch of convenience and flair to your daily routine.",
         "image": "assets/images/collections/accessories.png"
+    },
+    {
+        "name": "promotional",
+        "description": "Check out our promotional collection featuring exclusive items designed to showcase your university pride. From branded apparel to unique accessories, these products are perfect for students, alumni, and supporters looking to represent their institution in style. Don't miss the chance to grab these limited-edition pieces that celebrate your connection to the university community.",
+        "image": "assets/images/collections/promotional.png"
     }
 ]
