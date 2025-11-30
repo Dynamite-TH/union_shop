@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/widgets/common_widgets.dart';
 
 class _TestObserver extends NavigatorObserver {
   final List<Route<dynamic>> pushed = [];
