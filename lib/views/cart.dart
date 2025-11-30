@@ -116,18 +116,35 @@ class _CartScreenState extends State<CartScreen> {
                                   children: [
                                     // Color
                                     DropdownButton<String>(
+                                      // Build a deduplicated list of colours and
+                                      // ensure the current value is present to
+                                      // avoid DropdownButton assertion errors.
                                       value: ci.color,
-                                      items: [
-                                        'Light Blue',
-                                        'Black',
-                                        'White',
-                                        'Default'
-                                      ]
-                                          .map((c) => DropdownMenuItem(
-                                                value: c,
-                                                child: Text(c),
-                                              ))
-                                          .toList(),
+                                      items: (() {
+                                        final base = [
+                                          'Light Blue',
+                                          'Black',
+                                          'White',
+                                          'Default'
+                                        ];
+                                        // Use LinkedHashSet to preserve order and
+                                        // remove duplicates while ensuring the
+                                        // current color is present.
+                                        final set = <String>{};
+                                        void add(String? s) {
+                                          if (s != null) set.add(s);
+                                        }
+
+                                        for (final s in base) {add(s);
+                                        add(ci.color);}
+
+                                        return set
+                                            .map((c) => DropdownMenuItem(
+                                                  value: c,
+                                                  child: Text(c),
+                                                ))
+                                            .toList();
+                                      })(),
                                       onChanged: (v) {
                                         if (v != null) cart.updateColor(ci, v);
                                       },
