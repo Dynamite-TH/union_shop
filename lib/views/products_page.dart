@@ -18,8 +18,6 @@ class ProductsPage extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
       ),
       home: const ProductsScreen(),
-      // By default, the app starts at the '/' route, which is the HomeScreen
-      initialRoute: 'collections/sales-product',
     );
   }
 }
@@ -32,6 +30,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  String category = 'sales';
   String? _selectedTag;
   List<String> _allTags = [];
   List<ProductItem> _products = [];
@@ -70,7 +69,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
     // display-friendly selected tag name
     final filtered = _products.where((p) {
-      final isSales = p.category.toLowerCase().trim() == 'sales';
+      final isSales = p.category.toLowerCase().trim() == category;
       if (_selectedTag == null) {
         return isSales;
       } else {
