@@ -108,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
+    // Show 1 column on very small screens, and 2 columns for wider screens
+    final crossAxisCount = screenWidth < 600 ? 1 : 2;
 
     final filtered = _products.where((p) {
       final isPromotional =
@@ -140,7 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.7),
+                          // dim the background so overlay text is readable
+                          color: Colors.black.withOpacity(0.7),
                         ),
                       ),
                     ),
@@ -220,22 +222,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           : Center(
                               child: ConstrainedBox(
                                 // Keep the grid centered and readable on wide screens
+                                // narrower maxWidth makes two items appear larger and centered like the design
                                 constraints:
-                                    const BoxConstraints(maxWidth: 1200),
+                                    const BoxConstraints(maxWidth: 900),
                                 child: GridView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: crossAxisCount,
-                                    crossAxisSpacing: 5,
-                                    mainAxisSpacing: 5,
-                                    childAspectRatio: 0.75,
+                                    crossAxisSpacing: 12, // more breathing room
+                                    mainAxisSpacing: 16,
+                                    // increase tile height so images are larger relative to text
+                                    childAspectRatio: 0.9,
                                   ),
                                   itemCount: filtered.length,
                                   itemBuilder: (context, index) {
-                                    return ProductItemCard(
-                                        product: filtered[index]);
+                                    // keep using the existing ProductItemCard; the larger grid tiles will make the image and text display like the reference
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 6.0),
+                                      child: ProductItemCard(
+                                          product: filtered[index]),
+                                    );
                                   },
                                 ),
                               ),
