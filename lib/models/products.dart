@@ -84,15 +84,3 @@ Future<List<ProductItem>> loadProductsFromAsset(
   } catch (_) {}
   return <ProductItem>[];
 }
-
-/// Loads products and groups them by category.
-/// Returns a map where keys are category names and values are lists of ProductItem.
-Future<Map<String, List<ProductItem>>> loadProductsGroupedByCategory(
-    [String path = 'assets/data/products.json']) async {
-  final products = await loadProductsFromAsset(path);
-  final Map<String, List<ProductItem>> grouped = {};
-  for (final p in products) {
-    grouped.putIfAbsent(p.category, () => []).add(p);
-  }
-  return grouped;
-}
