@@ -55,7 +55,9 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    final gvSmall = tester.widget<GridView>(find.byType(GridView));
+    // There may be multiple GridViews on the page (promotional and accessories)
+    // Pick the first one to inspect.
+    final gvSmall = tester.widgetList<GridView>(find.byType(GridView)).first;
     final delegateSmall = gvSmall.gridDelegate;
     expect(delegateSmall, isA<SliverGridDelegateWithFixedCrossAxisCount>());
     final crossSmall =
@@ -70,7 +72,7 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    final gvWide = tester.widget<GridView>(find.byType(GridView));
+    final gvWide = tester.widgetList<GridView>(find.byType(GridView)).first;
     final delegateWide =
         gvWide.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
     expect(delegateWide.crossAxisCount, 2);

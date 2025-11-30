@@ -8,6 +8,8 @@ void main() {
   testWidgets('CollectionsScreen renders demo collections', (tester) async {
     HttpOverrides.global = TestHttpOverrides();
     await tester.pumpWidget(const MaterialApp(home: CollectionsScreen()));
+    // wait for async collection loading
+    await tester.pumpAndSettle();
 
     // Title is present
     expect(find.text('Collections'), findsOneWidget);
