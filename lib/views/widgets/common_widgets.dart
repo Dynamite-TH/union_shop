@@ -295,12 +295,12 @@ class FooterWidget extends StatelessWidget {
   }
 }
 
-
-
 class ProductItemCard extends StatefulWidget {
   final ProductItem product;
+  final String? route;
 
-  const ProductItemCard({Key? key, required this.product}) : super(key: key);
+  const ProductItemCard({Key? key, required this.product, this.route})
+      : super(key: key);
 
   @override
   State<ProductItemCard> createState() => _ProductItemCardState();
@@ -338,8 +338,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
             child: GestureDetector(
               onTap: () {
                 final slug = product.name.replaceAll(' ', '-').toLowerCase();
-                Navigator.pushNamed(
-                    context, '/collections/sales-product/$slug');
+                Navigator.pushNamed(context, '${widget.route}$slug');
               },
               child: SizedBox(
                 height: 200,
