@@ -11,20 +11,21 @@ void main() {
     });
     testWidgets('should display home page with basic elements', (tester) async {
       await tester.pumpWidget(const UnionShopApp());
-      await tester.pump();
+      // wait for async product/collection loading
+      await tester.pumpAndSettle();
       // Check that basic UI elements are present
       expect(find.text('Free UK delivery on orders over £30'), findsOneWidget);
-      expect(find.text('Hero Collection'), findsOneWidget);
-      expect(find.text('PRODUCTS SECTION'), findsOneWidget);
+      // Updated app shows 'Sales' hero header and section titles
+      expect(find.text('Sales'), findsOneWidget);
+      expect(find.text('UNIVERSITY ESSENTIALS'), findsOneWidget);
       expect(find.text('BROWSE PRODUCTS'), findsOneWidget);
     });
 
     testWidgets('should display product cards', (tester) async {
       await tester.pumpWidget(const UnionShopApp());
-      await tester.pump();
-      // Home screen currently does not render live product cards by default
-      // (the GridView children list is empty). Ensure the section placeholder exists.
-      expect(find.text('PRODUCTS SECTION'), findsOneWidget);
+      await tester.pumpAndSettle();
+      // Home screen shows section header for promotional products
+      expect(find.text('UNIVERSITY ESSENTIALS'), findsOneWidget);
     });
 
     testWidgets('should display header icons', (tester) async {

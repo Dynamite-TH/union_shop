@@ -17,7 +17,7 @@ void main() {
       tester,
     ) async {
       await tester.pumpWidget(createTestWidget());
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       // Check that basic UI elements are present
       expect(find.text('Placeholder Product'), findsOneWidget);
@@ -49,10 +49,9 @@ void main() {
       await tester.pumpWidget(createTestWidget());
       await tester.pump();
 
-      // Check that footer is present
-      expect(find.textContaining('Placeholder Footer'), findsOneWidget);
-      expect(
-          find.textContaining('Students should customise this footer section'),
+      // Check that footer is present — updated footer contains contact info
+      expect(find.textContaining('Contact Email:'), findsOneWidget);
+      expect(find.textContaining('© 2024 Union Shop. All rights reserved.'),
           findsOneWidget);
     });
   });
