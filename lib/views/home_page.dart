@@ -3,7 +3,7 @@ import 'package:union_shop/Repositories/union_shop_repository.dart';
 import 'package:union_shop/views/about_us.dart';
 import 'package:union_shop/views/collections.dart';
 import 'package:union_shop/views/widgets/common_widgets.dart';
-import 'package:union_shop/views/sales_product_page.dart';
+import 'package:union_shop/views/products_page.dart';
 import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/not_found.dart';
 import 'package:union_shop/views/cart.dart';
@@ -28,7 +28,6 @@ class UnionShopApp extends StatelessWidget {
       routes: {
         '/about_us': (context) => const AboutUsScreen(),
         '/collections': (context) => const CollectionsScreen(),
-        '/collections/sales-product': (context) => const ProductsScreen(),
         '/cart': (context) => const CartScreen(),
       },
       // Dynamic routes (e.g. /collections/sales-product/<product-slug>)
@@ -36,6 +35,7 @@ class UnionShopApp extends StatelessWidget {
         final name = settings.name ?? '';
         const prefix = '/collections/sales-product/';
         const promoPrefix = '/collections/promotional-product/';
+        const collectionsPrefix = '/collections/';
         if (name.startsWith(prefix) || name.startsWith(promoPrefix)) {
           final slug = name.startsWith(prefix)
               ? name.substring(prefix.length)
@@ -61,6 +61,27 @@ class UnionShopApp extends StatelessWidget {
             );
           }
         }
+        // If the route is a collection page (e.g. /collections/promotional or /collections/accessory)
+        if (name.startsWith(collectionsPrefix)) {
+          final slug = name.substring(collectionsPrefix.length);
+          if (slug.isNotEmpty) {
+            return MaterialPageRoute(
+              builder: (context) => const ProductsPage(
+                
+              ),
+              settings: settings,
+            );
+          }
+          // If it's just "/collections/" or "/collections", fall back to the CollectionsScreen
+          if (slug.isEmpty) {
+            return MaterialPageRoute(
+              builder: (context) => const CollectionsScreen(
+              ),
+              settings: settings,
+            );
+          }
+        }
+
         return null;
       },
       // If a route is not found, show the 404 page
@@ -119,10 +140,16 @@ class _HomeScreenState extends State<HomeScreen> {
     // Show 1 column on very small screens, and 2 columns for wider screens
     final crossAxisCount = screenWidth < 600 ? 1 : 2;
 
-    final filtered = _products.where((p) {
+    final promotionalFiltered = _products.where((p) {
       final isPromotional =
           p.category.toLowerCase().trim() == 'promotional'.toLowerCase();
       return isPromotional;
+    }).toList();
+
+    final accessoryFiltered = _products.where((p) {
+      final isAccessory =
+          p.category.toLowerCase().trim() == 'accessory'.toLowerCase();
+      return isAccessory;
     }).toList();
 
     return Scaffold(
@@ -215,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     const Text(
-                      'PRODUCTS SECTION',
+                      'UNIVERSITY ESSENTIALS',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.black,
@@ -224,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: filtered.isEmpty
+                      child: promotionalFiltered.isEmpty
                           ? const Center(
                               child: Text('No promotional products available.'))
                           : Center(
@@ -244,20 +271,83 @@ class _HomeScreenState extends State<HomeScreen> {
                                     // increase tile height so images are larger relative to text
                                     childAspectRatio: 0.9,
                                   ),
-                                  itemCount: filtered.length,
+                                  itemCount: promotionalFiltered.length,
                                   itemBuilder: (context, index) {
                                     // keep using the existing ProductItemCard; the larger grid tiles will make the image and text display like the reference
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 4.0, horizontal: 6.0),
                                       child: ProductItemCard(
-                                        product: filtered[index],
+                                        product: promotionalFiltered[index],
                                         // provide the full slugged route so onGenerateRoute can match:
                                         route:
                                             '/collections/promotional-product/',
                                         // pass available colours from the loaded products
                                         // (this will allow the card / navigation logic to forward colors directly)
-                                        colours: filtered[index].colors,
+                                        colours:
+                                            promotionalFiltered[index].colors,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'ACCESSORIES',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: accessoryFiltered.isEmpty
+                          ? const Center(
+                              child: Text('No accessory products available.'))
+                          : Center(
+                              child: ConstrainedBox(
+                                // Keep the grid centered and readable on wide screens
+                                // narrower maxWidth makes two items appear larger and centered like the design
+                                constraints:
+                                    const BoxConstraints(maxWidth: 900),
+                                child: GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: crossAxisCount,
+                                    crossAxisSpacing: 12, // more breathing room
+                                    mainAxisSpacing: 16,
+                                    // increase tile height so images are larger relative to text
+                                    childAspectRatio: 0.9,
+                                  ),
+                                  itemCount: accessoryFiltered.length,
+                                  itemBuilder: (context, index) {
+                                    // keep using the existing ProductItemCard; the larger grid tiles will make the image and text display like the reference
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 4.0, horizontal: 6.0),
+                                      child: ProductItemCard(
+                                        product: accessoryFiltered[index],
+                                        // provide the full slugged route so onGenerateRoute can match:
+                                        route:
+                                            '/collections/accessory-product/',
+                                        // pass available colours from the loaded products
+                                        // (this will allow the card / navigation logic to forward colors directly)
+                                        colours:
+                                            accessoryFiltered[index].colors,
                                       ),
                                     );
                                   },

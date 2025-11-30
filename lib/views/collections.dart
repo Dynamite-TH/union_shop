@@ -82,8 +82,9 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
                     title: collection.title,
                     route: collection.route,
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('/collections${collection.route}');
+                      final slug =
+                          collection.title.replaceAll(' ', '-').toLowerCase();
+                      Navigator.pushNamed(context, collection.route);
                     },
                   );
                 },
@@ -101,14 +102,16 @@ const List<_CollectionItem> _demoCollections = [
   _CollectionItem(
       'Autumn Favourites',
       '/assets/images/collections/autumn_favourites.png',
-      '/autumn-favourites',
+      '/collections/autumn-favourites',
       ['autumn', 'fall', 'clothing']),
   _CollectionItem('Sales', '/assets/images/collections/sales.png',
-      '/sales-product', ['discount', 'clothing', 'accessories']),
+      '/collections/sales-product', ['discount', 'clothing', 'accessories']),
+  _CollectionItem('Hoodies', '', 'collections/hoodies',
+      ['hoodies', 'sweatshirts', 'clothing']),
   _CollectionItem(
-      'Hoodies', '', '/hoodies', ['hoodies', 'sweatshirts', 'clothing']),
-  _CollectionItem('T-Shirts', '', '/t-shirts', ['tshirt', 'tees', 'clothing']),
-  _CollectionItem('Accessories', '', '/accessories', ['accessories']),
+      'T-Shirts', '', '/collections/t-shirts', ['tshirt', 'tees', 'clothing']),
+  _CollectionItem(
+      'Accessories', '', '/collections/accessories', ['accessories']),
 ];
 
 class _CollectionItem {
