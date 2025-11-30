@@ -104,7 +104,7 @@ const List<_CollectionItem> _demoCollections = [
       ['autumn', 'fall', 'clothing']),
   _CollectionItem('Sales', '/assets/images/collections/sales.png',
       '/collections/sales', ['discount', 'clothing', 'accessories']),
-  _CollectionItem('Hoodies', '', 'collections/hoodies',
+  _CollectionItem('Hoodies', '', '/collections/hoodies',
       ['hoodies', 'sweatshirts', 'clothing']),
   _CollectionItem(
       'T-Shirts', '', '/collections/t-shirts', ['tshirt', 'tees', 'clothing']),
