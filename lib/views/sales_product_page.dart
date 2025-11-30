@@ -6,8 +6,8 @@ import 'package:union_shop/models/products.dart';
 // If your models/products.dart already exposes a product list (named 'product'),
 // remove this fallback.
 
-class SalesProductPage extends StatelessWidget {
-  const SalesProductPage({Key? key}) : super(key: key);
+class ProductsPage extends StatelessWidget {
+  const ProductsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +17,21 @@ class SalesProductPage extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
       ),
-      home: const SalesProductScreen(),
+      home: const ProductsScreen(),
       // By default, the app starts at the '/' route, which is the HomeScreen
       initialRoute: 'collections/sales-product',
     );
   }
 }
 
-class SalesProductScreen extends StatefulWidget {
-  const SalesProductScreen({Key? key}) : super(key: key);
+class ProductsScreen extends StatefulWidget {
+  const ProductsScreen({Key? key}) : super(key: key);
 
   @override
-  State<SalesProductScreen> createState() => _SalesProductScreenState();
+  State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
-class _SalesProductScreenState extends State<SalesProductScreen> {
+class _ProductsScreenState extends State<ProductsScreen> {
   String? _selectedTag;
   List<String> _allTags = [];
   List<ProductItem> _products = [];

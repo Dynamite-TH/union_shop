@@ -28,7 +28,7 @@ class UnionShopApp extends StatelessWidget {
       routes: {
         '/about_us': (context) => const AboutUsScreen(),
         '/collections': (context) => const CollectionsScreen(),
-        '/collections/sales-product': (context) => const SalesProductScreen(),
+        '/collections/sales-product': (context) => const ProductsScreen(),
         '/cart': (context) => const CartScreen(),
       },
       // Dynamic routes (e.g. /collections/sales-product/<product-slug>)
