@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:union_shop/models/collections.dart';
 import 'package:union_shop/views/widgets/common_widgets.dart';
 import 'package:union_shop/models/products.dart';
 
@@ -8,11 +9,11 @@ import 'package:union_shop/models/products.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen(
-      {Key? key, required this.filter, required this.description})
+      {Key? key, required this.filter, required this.collections})
       : super(key: key);
 
   final String filter;
-  final String description;
+  final CollectionsItem collections;
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -22,6 +23,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   late String filter = widget.filter;
   String? _selectedTag;
   List<ProductItem> _products = [];
+  late CollectionsItem collections;
   // store loaded products for use in build
   @override
   void initState() {
@@ -90,7 +92,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                widget.description,
+                widget.collections.description,
                 style: const TextStyle(fontSize: 16, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
