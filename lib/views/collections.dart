@@ -82,8 +82,6 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
                     title: collection.title,
                     route: collection.route,
                     onTap: () {
-                      final slug =
-                          collection.title.replaceAll(' ', '-').toLowerCase();
                       Navigator.pushNamed(context, collection.route);
                     },
                   );
@@ -105,7 +103,7 @@ const List<_CollectionItem> _demoCollections = [
       '/collections/autumn-favourites',
       ['autumn', 'fall', 'clothing']),
   _CollectionItem('Sales', '/assets/images/collections/sales.png',
-      '/collections/sales-product', ['discount', 'clothing', 'accessories']),
+      '/collections/sales', ['discount', 'clothing', 'accessories']),
   _CollectionItem('Hoodies', '', 'collections/hoodies',
       ['hoodies', 'sweatshirts', 'clothing']),
   _CollectionItem(
