@@ -229,6 +229,7 @@ class _ProductPageState extends State<ProductPage> {
                       ],
                     ),
                   ),
+                  const FooterWidget(),
                 ],
               ),
             ),
@@ -329,7 +330,6 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
       // Footer (keep placeholder footer to match student exercises/tests)
-      bottomNavigationBar: const FooterWidget(),
     );
   }
 }
