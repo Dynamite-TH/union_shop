@@ -31,20 +31,28 @@ class UnionShopApp extends StatelessWidget {
         '/collections': (context) => const CollectionsScreen(),
         '/cart': (context) => const CartScreen(),
       },
-      // Dynamic routes (e.g. /collections/sales-product/<product-slug>)
+      // Dynamic routes (e.g. /collections/<collection-slug> or /collections/<collection-slug>/<product-slug>)
       onGenerateRoute: (settings) {
         final name = settings.name ?? '';
         const collectionsPrefix = '/collections/';
 
-        // product detail routes (existing behavior)
-        if (name.startsWith(collectionsPrefix) &&
-            (_collectionNames.any((c) => name.contains(c)))) {
-          final slug = name.substring(collectionsPrefix.length);
+        // Only handle routes that start with /collections/
+        if (!name.startsWith(collectionsPrefix)) return null;
 
-          // Try to find the product with a matching slug
+        // Get the path after /collections/ and split into non-empty segments
+        final rest = name.substring(collectionsPrefix.length);
+        final parts = rest.split('/').where((s) => s.isNotEmpty).toList();
+
+        // If no parts (route was exactly '/collections' or '/collections/'), let the named route handling take precedence
+        if (parts.isEmpty) return null;
+
+        // If there are two or more segments, treat the last segment as a product slug
+        if (parts.length >= 2) {
+          final productSlug = parts.last.trim().toLowerCase();
+          debugPrint('Attempting to find product for slug: $productSlug');
           try {
-            final matched = _products.firstWhere(
-                (p) => p.name.replaceAll(' ', '-').toLowerCase() == slug);
+            final matched = _products.firstWhere((p) =>
+                p.name.replaceAll(' ', '-').toLowerCase() == productSlug);
             final colours = matched.colors;
             return MaterialPageRoute(
               builder: (context) => ProductPage(
@@ -54,7 +62,7 @@ class UnionShopApp extends StatelessWidget {
               settings: settings,
             );
           } catch (_) {
-            // Not found — fall through to unknown route
+            // Not found — show 404
             return MaterialPageRoute(
               builder: (context) => const PageNotFoundScreen(),
               settings: settings,
@@ -62,30 +70,19 @@ class UnionShopApp extends StatelessWidget {
           }
         }
 
-        // collection pages: /collections/<slug>
-        if ((name == '/collections' || name.startsWith(collectionsPrefix)) &&
-            (_collectionNames.any((c) => !name.contains(c)))) {
-          // If the route is exactly /collections, let the named route handling take precedence
-          if (name == '/collections') return null;
-
-          // extract slug after "/collections/"
-          final slug = name.substring(collectionsPrefix.length);
-          debugPrint('Navigating to collections with slug: $slug');
-          // normalize: remove trailing slashes, convert dashes to spaces, drop "product(s)" suffix
-
-          return MaterialPageRoute(
-            builder: (context) => ProductsScreen(
-              filter: slug,
-              collections: _collections.firstWhere(
-                  (c) => c.name.replaceAll(' ', '-').toLowerCase() == slug,
-                  orElse: () => CollectionsItem(
-                      id: '', name: 'Unknown', description: '', image: '')),
-            ),
-            settings: settings,
-          );
-        }
-
-        return null;
+        // Single segment after /collections/ — treat as a collection page
+        final slug = parts.first.trim().toLowerCase();
+        debugPrint('Navigating to collections with slug: $slug');
+        return MaterialPageRoute(
+          builder: (context) => ProductsScreen(
+            filter: slug,
+            collections: _collections.firstWhere(
+                (c) => c.name.replaceAll(' ', '-').toLowerCase() == slug,
+                orElse: () => CollectionsItem(
+                    id: '', name: 'Unknown', description: '', image: '')),
+          ),
+          settings: settings,
+        );
       },
       // If a route is not found, show the 404 page
       onUnknownRoute: (settings) {
