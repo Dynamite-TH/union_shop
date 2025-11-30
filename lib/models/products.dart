@@ -1,6 +1,3 @@
-// lib/models/products.dart
-// Utility to load products from a JSON asset and map into Product items.
-
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
