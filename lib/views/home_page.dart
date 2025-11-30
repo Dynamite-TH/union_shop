@@ -77,7 +77,7 @@ class UnionShopApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) => ProductsScreen(
               filter: slug,
-              description: 'Products in the "$slug" collection',
+              description: slug.replaceAll('-', ' '),
             ),
             settings: settings,
           );
