@@ -8,6 +8,7 @@ import 'package:union_shop/views/product_page.dart';
 import 'package:union_shop/views/not_found.dart';
 import 'package:union_shop/views/cart.dart';
 import 'package:union_shop/models/products.dart';
+import 'package:union_shop/models/collections.dart';
 
 class UnionShopApp extends StatelessWidget {
   const UnionShopApp({super.key});
@@ -33,15 +34,12 @@ class UnionShopApp extends StatelessWidget {
       // Dynamic routes (e.g. /collections/sales-product/<product-slug>)
       onGenerateRoute: (settings) {
         final name = settings.name ?? '';
-        const prefix = '/collections/sales/';
-        const promoPrefix = '/collections/promotional-product/';
         const collectionsPrefix = '/collections/';
 
         // product detail routes (existing behavior)
-        if (name.startsWith(prefix) || name.startsWith(promoPrefix)) {
-          final slug = name.startsWith(prefix)
-              ? name.substring(prefix.length)
-              : name.substring(promoPrefix.length);
+        if (name.startsWith(collectionsPrefix) &&
+            (_collectionNames.any((c) => name.contains(c)))) {
+          final slug = name.substring(collectionsPrefix.length);
 
           // Try to find the product with a matching slug
           try {
@@ -65,7 +63,8 @@ class UnionShopApp extends StatelessWidget {
         }
 
         // collection pages: /collections/<slug>
-        if (name == '/collections' || name.startsWith(collectionsPrefix)) {
+        if ((name == '/collections' || name.startsWith(collectionsPrefix)) &&
+            (_collectionNames.any((c) => !name.contains(c)))) {
           // If the route is exactly /collections, let the named route handling take precedence
           if (name == '/collections') return null;
 
@@ -77,7 +76,10 @@ class UnionShopApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) => ProductsScreen(
               filter: slug,
-              description: slug.replaceAll('-', ' '),
+              collections: _collections.firstWhere(
+                  (c) => c.name.replaceAll(' ', '-').toLowerCase() == slug,
+                  orElse: () => CollectionsItem(
+                      id: '', name: 'Unknown', description: '', image: '')),
             ),
             settings: settings,
           );
@@ -97,6 +99,8 @@ class UnionShopApp extends StatelessWidget {
 }
 
 List<ProductItem> _products = [];
+List<CollectionsItem> _collections = [];
+List<String> _collectionNames = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -118,15 +122,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _initTags() async {
     // collect unique tags from asynchronously loaded products
     final loaded = await loadProductsFromAsset();
+    final collectionsLoaded = await loadCollectionsFromAsset();
     debugPrint('Loaded ${loaded.length} products for sales page');
     for (final p in loaded) {
       debugPrint(
         'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}, Colors: ${p.colors}',
       );
     }
+    for (final c in collectionsLoaded) {
+      _collectionNames.add(c.name);
+    }
     if (mounted) {
       setState(() {
         _products = loaded;
+        _collections = collectionsLoaded;
       });
     }
   }
