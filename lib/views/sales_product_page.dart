@@ -208,6 +208,7 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
                       ),
                     ),
             ),
+            const FooterWidget(),
           ],
         ),
       ),
@@ -331,7 +332,6 @@ class _ProductItemCardState extends State<ProductItemCard> {
               ),
             ),
           ),
-          const FooterWidget(),
         ],
       ),
     );
