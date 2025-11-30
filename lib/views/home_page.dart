@@ -35,14 +35,22 @@ class UnionShopApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         final name = settings.name ?? '';
         const prefix = '/collections/sales-product/';
-        if (name.startsWith(prefix) || name.startsWith('/')) {
-          final slug = name.substring(prefix.length);
+        const promoPrefix = '/collections/promotional-product/';
+        if (name.startsWith(prefix) || name.startsWith(promoPrefix)) {
+          final slug = name.startsWith(prefix)
+              ? name.substring(prefix.length)
+              : name.substring(promoPrefix.length);
+
           // Try to find the product with a matching slug
           try {
             final matched = _products.firstWhere(
                 (p) => p.name.replaceAll(' ', '-').toLowerCase() == slug);
+            final colours = matched.colors;
             return MaterialPageRoute(
-              builder: (context) => ProductPage(product: matched),
+              builder: (context) => ProductPage(
+                product: matched,
+                colours: colours,
+              ),
               settings: settings,
             );
           } catch (_) {
@@ -91,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
     debugPrint('Loaded ${loaded.length} products for sales page');
     for (final p in loaded) {
       debugPrint(
-        'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}',
+        'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}, Colors: ${p.colors}',
       );
     }
     if (mounted) {
@@ -140,9 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           // dim the background so overlay text is readable
-                          color: Colors.black.withOpacity(0.7),
+                          color: Color(0xB3000000),
                         ),
                       ),
                     ),
@@ -243,7 +251,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 4.0, horizontal: 6.0),
                                       child: ProductItemCard(
-                                          product: filtered[index]),
+                                        product: filtered[index],
+                                        // provide the full slugged route so onGenerateRoute can match:
+                                        route:
+                                            '/collections/promotional-product/',
+                                        // pass available colours from the loaded products
+                                        // (this will allow the card / navigation logic to forward colors directly)
+                                        colours: filtered[index].colors,
+                                      ),
                                     );
                                   },
                                 ),
