@@ -12,6 +12,7 @@ class ProductItem {
   final String image;
   final String category;
   final double discount;
+  final List<String> colors;
   final List<String> tags;
 
   ProductItem({
@@ -22,6 +23,7 @@ class ProductItem {
     required this.image,
     required this.category,
     this.discount = 0.0,
+    this.colors = const [],
     this.tags = const [],
   });
 
@@ -43,6 +45,10 @@ class ProductItem {
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList() ??
               [],
+      colors: (json['colors'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
     );
   }
 
