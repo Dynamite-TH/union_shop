@@ -99,7 +99,7 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
                     return CollectionsCard(
                       imageUrl: collection.image,
                       title: collection.name,
-                      description: collection.description,
+                      collections: collection,
                       route: '/collections/',
                     );
                   },
@@ -116,14 +116,14 @@ class CollectionsCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String route;
-  final String description;
+  final CollectionsItem collections;
 
   const CollectionsCard({
     super.key,
     required this.imageUrl,
     required this.title,
     this.route = '/',
-    required this.description,
+    required this.collections,
   });
 
   @override
