@@ -10,6 +10,11 @@
             "apparel",
             "casual"
         ],
+        "colors": [
+            "Light Blue",
+            "Black",
+            "White"
+        ],
         "image": "assets/images/products/union_tee.png"
     },
     {
@@ -22,6 +27,11 @@
             "clothing",
             "outerwear",
             "unisex"
+        ],
+        "colors": [
+            "Gray",
+            "Black",
+            "White"
         ],
         "image": "assets/images/products/campus_hoodie.png"
     },
@@ -36,6 +46,11 @@
             "notebook",
             "study"
         ],
+        "colors": [
+            "Blue",
+            "Green",
+            "Red"
+        ],
         "image": "assets/images/products/study_notebook.png"
     },
     {
@@ -48,6 +63,10 @@
             "drinkware",
             "accessory",
             "travel"
+        ],
+        "colors": [
+            "Silver",
+            "Black"
         ],
         "image": "assets/images/products/travel_mug.png"
     },
@@ -62,6 +81,10 @@
             "audio",
             "wireless"
         ],
+        "colors": [
+            "Black",
+            "White"
+        ],
         "image": "assets/images/products/wireless_earbuds.png"
     },
     {
@@ -74,6 +97,10 @@
             "bag",
             "eco",
             "accessory"
+        ],
+        "colors": [
+            "Natural",
+            "Black"
         ],
         "image": "assets/images/products/canvas_tote.png"
     },
@@ -88,6 +115,10 @@
             "lighting",
             "study"
         ],
+        "colors": [
+            "White",
+            "Black"
+        ],
         "image": "assets/images/products/desk_lamp.png"
     },
     {
@@ -100,6 +131,10 @@
             "accessory",
             "electronics",
             "protection"
+        ],
+        "colors": [
+            "Black",
+            "Gray"
         ],
         "image": "assets/images/products/laptop_sleeve.png"
     },
@@ -114,6 +149,11 @@
             "pen",
             "office"
         ],
+        "colors": [
+            "Blue",
+            "Black",
+            "Red"
+        ],
         "image": "assets/images/products/pen_set.png"
     },
     {
@@ -126,6 +166,10 @@
             "clothing",
             "winter",
             "gift"
+        ],
+        "colors": [
+            "Red",
+            "Blue"
         ],
         "image": "assets/images/products/campus_scarf.png"
     }
