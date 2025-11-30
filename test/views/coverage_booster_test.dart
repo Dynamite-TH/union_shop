@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/Repositories/cart_manager.dart';
 import 'package:union_shop/Repositories/union_shop_repository.dart';
 import 'package:union_shop/models/products.dart';
-import 'package:union_shop/views/sales_product_page.dart';
+import 'package:union_shop/views/products_page.dart';
 import 'package:union_shop/views/cart.dart';
 
 import '../test_utils.dart';
