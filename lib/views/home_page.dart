@@ -129,9 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
         'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}, Colors: ${p.colors}',
       );
     }
-    for (final c in collectionsLoaded) {
-      _collectionNames.add(c.name);
-    }
+    // store collection slugs (normalized) for reliable route matching
+    _collectionNames = collectionsLoaded
+        .map((c) => c.name.replaceAll(' ', '-').toLowerCase())
+        .toList();
     if (mounted) {
       setState(() {
         _products = loaded;
