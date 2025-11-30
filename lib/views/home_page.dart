@@ -141,8 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Container(
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                            'https://shop.upsu.net/cdn/shop/files/PortsmouthCityPostcard2_1024x1024@2x.jpg?v=1752232561',
+                          image: AssetImage(
+                            'assets/images/sales-background.png',
                           ),
                           fit: BoxFit.cover,
                         ),
