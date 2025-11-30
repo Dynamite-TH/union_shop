@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          'Hero Collection',
+                          'Sales',
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          "Discover our exclusive range of products celebrating the spirit of Portsmouth. From apparel to accessories, find the perfect item to showcase your love for the city.",
+                          "Discover unbeatable deals on our exclusive sales products! From trendy apparel to must-have accessories, find everything you need at prices that can't be beat. Hurry, these offers won't last long!",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
