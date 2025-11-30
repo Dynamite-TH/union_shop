@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/widgets/common_widgets.dart';
 
 /// A simple page shown when the app cannot find a route (404).
 class PageNotFoundScreen extends StatelessWidget {

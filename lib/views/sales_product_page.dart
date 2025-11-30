@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/widgets/common_widgets.dart';
 import 'package:union_shop/models/products.dart';
 
 // Provide a fallback top-level 'product' list so this file compiles

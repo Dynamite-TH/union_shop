@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:union_shop/views/widgets/appbar.dart';
+import 'package:union_shop/views/widgets/common_widgets.dart';
 
 
 class AboutUsPage extends StatelessWidget {
