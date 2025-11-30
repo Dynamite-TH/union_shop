@@ -298,8 +298,10 @@ class FooterWidget extends StatelessWidget {
 class ProductItemCard extends StatefulWidget {
   final ProductItem product;
   final String? route;
+  final List<String>? colours;
 
-  const ProductItemCard({Key? key, required this.product, this.route})
+  const ProductItemCard(
+      {Key? key, required this.product, this.route, this.colours})
       : super(key: key);
 
   @override
