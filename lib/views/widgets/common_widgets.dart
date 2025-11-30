@@ -51,9 +51,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       UnionShopRepository().navigateToHome(context);
                     },
                     child: SizedBox(
-                        width: logoWidth + 50,
+                        width: logoWidth - 20,
+                        height: mainHeaderHeight,
                         child: Image.network(
-                          'https://shop.upsu.net/cdn/shop/files/upsu_300x300.png?v=1614735854',
+                          'assets/images/logo.png',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
