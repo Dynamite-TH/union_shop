@@ -33,9 +33,11 @@ class UnionShopApp extends StatelessWidget {
       // Dynamic routes (e.g. /collections/sales-product/<product-slug>)
       onGenerateRoute: (settings) {
         final name = settings.name ?? '';
-        const prefix = '/collections/sales-product/';
+        const prefix = '/collections/sales/';
         const promoPrefix = '/collections/promotional-product/';
         const collectionsPrefix = '/collections/';
+
+        // product detail routes (existing behavior)
         if (name.startsWith(prefix) || name.startsWith(promoPrefix)) {
           final slug = name.startsWith(prefix)
               ? name.substring(prefix.length)
@@ -61,25 +63,23 @@ class UnionShopApp extends StatelessWidget {
             );
           }
         }
-        // If the route is a collection page (e.g. /collections/promotional or /collections/accessory)
-        if (name.startsWith(collectionsPrefix)) {
+
+        // collection pages: /collections/<slug>
+        if (name == '/collections' || name.startsWith(collectionsPrefix)) {
+          // If the route is exactly /collections, let the named route handling take precedence
+          if (name == '/collections') return null;
+
+          // extract slug after "/collections/"
           final slug = name.substring(collectionsPrefix.length);
-          if (slug.isNotEmpty) {
-            return MaterialPageRoute(
-              builder: (context) => const ProductsPage(
-                
-              ),
-              settings: settings,
-            );
-          }
-          // If it's just "/collections/" or "/collections", fall back to the CollectionsScreen
-          if (slug.isEmpty) {
-            return MaterialPageRoute(
-              builder: (context) => const CollectionsScreen(
-              ),
-              settings: settings,
-            );
-          }
+          debugPrint('Navigating to collections with slug: $slug');
+          // normalize: remove trailing slashes, convert dashes to spaces, drop "product(s)" suffix
+
+          return MaterialPageRoute(
+            builder: (context) => ProductsScreen(
+              filter: slug,
+            ),
+            settings: settings,
+          );
         }
 
         return null;
