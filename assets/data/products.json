@@ -1,6 +1,6 @@
 [
     {
-        "catagory": "sales",
+        "catagory": "sales, t-shirts",
         "name": "Union Tee",
         "price": 19.99,
         "description": "Soft cotton t-shirt with embroidered university logo.",
@@ -18,7 +18,7 @@
         "image": "assets/images/products/union_tee.png"
     },
     {
-        "catagory": "sales",
+        "catagory": "sales, hoodies",
         "name": "Campus Hoodie",
         "price": 49.99,
         "description": "Fleece-lined hoodie with front pocket and printed crest.",
@@ -36,7 +36,7 @@
         "image": "assets/images/products/campus_hoodie.png"
     },
     {
-        "catagory": "accessory",
+        "catagory": "accessories",
         "name": "Study Notebook (A5)",
         "price": 6.5,
         "description": "Durable A5 notebook, 120 lined pages, hardcover.",
@@ -54,7 +54,7 @@
         "image": "assets/images/products/study_notebook.png"
     },
     {
-        "catagory": "accessory",
+        "catagory": "accessories",
         "name": "Insulated Travel Mug",
         "price": 14.0,
         "description": "Stainless steel travel mug, 350ml, keeps drinks hot for hours.",
