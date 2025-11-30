@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Sales",
+        "description": "Explore our exclusive sales collection featuring unbeatable discounts on a wide range of apparel and accessories. From trendy hoodies to classic t-shirts, find your perfect style at a fraction of the price. Don't miss out on these limited-time offers to upgrade your wardrobe without breaking the bank!",
+        "image": "assets/images/collections/sales.png"
+    },
+    {
+        "name": "Hoodies",
+        "description": "Discover our cozy and stylish hoodies collection, perfect for staying warm and fashionable. Whether you're looking for a casual everyday hoodie or something with a bit more flair, our selection has something for everyone. Made from high-quality materials, these hoodies offer comfort and durability for all your adventures.",
+        "image": "assets/images/collections/hoodies.png"
+    },
+    {
+        "name": "T-Shirts",
+        "description": "Browse our versatile t-shirts collection, featuring a variety of styles, colors, and designs to suit every taste. From classic basics to graphic tees, our t-shirts are made from soft, breathable fabrics that ensure all-day comfort. Perfect for layering or wearing on their own, these t-shirts are a wardrobe essential.",
+        "image": "assets/images/collections/tshirts.png"
+    },
+    {
+        "name": "Accessories",
+        "description": "Enhance your look with our curated accessories collection, offering a range of stylish and functional items. From durable notebooks to insulated travel mugs, our accessories are designed to complement your lifestyle. Perfect for students and professionals alike, these essentials add a touch of convenience and flair to your daily routine.",
+        "image": "assets/images/collections/accessories.png"
+    }
+]
