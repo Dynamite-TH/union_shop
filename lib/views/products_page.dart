@@ -7,9 +7,12 @@ import 'package:union_shop/models/products.dart';
 // remove this fallback.
 
 class ProductsScreen extends StatefulWidget {
-  const ProductsScreen({Key? key, required this.filter}) : super(key: key);
+  const ProductsScreen(
+      {Key? key, required this.filter, required this.description})
+      : super(key: key);
 
   final String filter;
+  final String description;
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
@@ -18,7 +21,6 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   late String filter = widget.filter;
   String? _selectedTag;
-  List<String> _allTags = [];
   List<ProductItem> _products = [];
   // store loaded products for use in build
   @override
@@ -32,17 +34,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
     // collect unique tags from asynchronously loaded products
     final loaded = await loadProductsFromAsset();
     debugPrint('Loaded ${loaded.length} products for sales page');
-    final tagSet = <String>{};
     for (final p in loaded) {
       debugPrint(
         'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}',
       );
-      tagSet.addAll(p.tags);
     }
-    final tags = tagSet.toList()..sort();
     if (mounted) {
       setState(() {
-        _allTags = tags;
         _products = loaded;
       });
     }
@@ -54,15 +52,23 @@ class _ProductsScreenState extends State<ProductsScreen> {
     final crossAxisCount = screenWidth < 600 ? 2 : (screenWidth < 900 ? 3 : 4);
 
     // display-friendly selected tag name
+
     final filtered = _products.where((p) {
-      final isSales =
-          p.category.toLowerCase().trim() == filter.toLowerCase().trim();
+      final isfiltered = p.category.contains(filter);
       if (_selectedTag == null) {
-        return isSales;
+        return isfiltered;
       } else {
-        return isSales && p.tags.contains(_selectedTag);
+        return isfiltered && p.tags.contains(_selectedTag);
       }
     }).toList();
+
+    final tags = _products
+        .where((p) =>
+            p.category.toLowerCase().trim() == filter.toLowerCase().trim())
+        .expand((p) => p.tags)
+        .toSet()
+        .toList()
+      ..sort();
 
     final dropdownWidth =
         screenWidth < 420 ? (screenWidth - 48).clamp(120.0, 320.0) : 200.0;
@@ -84,7 +90,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                'Explore our exclusive sales products at unbeatable prices! Don\'t miss out on these limited-time offers.',
+                widget.description,
                 style: TextStyle(fontSize: 16, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
@@ -139,7 +145,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                 value: null,
                                 child: Text('All'),
                               ),
-                              ..._allTags
+                              ...tags
                                   .map((tag) => DropdownMenuItem<String?>(
                                         value: tag,
                                         child: Text(tag),
