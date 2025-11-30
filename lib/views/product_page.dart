@@ -24,7 +24,21 @@ class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
-    _availableColors = widget.colours ?? ['Light Blue', 'Black', 'White'];
+    // Build a deduplicated list of available colours. If the incoming
+    // `widget.colours` contains duplicates or is null, normalize it and
+    // ensure we have at least one option.
+    final raw = widget.colours ?? ['Light Blue', 'Black', 'White'];
+    final seen = <String>{};
+    _availableColors = [];
+    for (final c in raw) {
+      if (!seen.contains(c)) {
+        seen.add(c);
+        _availableColors.add(c);
+      }
+    }
+    if (_availableColors.isEmpty) {
+      _availableColors = ['Default'];
+    }
     _selectedColor = _availableColors.first;
     _selectedSize = _availableSizes[1];
   }
