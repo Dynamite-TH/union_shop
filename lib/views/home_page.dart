@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final accessoryFiltered = _products.where((p) {
       final isAccessory =
-          p.category.toLowerCase().trim() == 'accessory'.toLowerCase();
+          p.category.toLowerCase().trim() == 'accessories'.toLowerCase();
       return isAccessory;
     }).toList();
 
