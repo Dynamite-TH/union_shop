@@ -6,31 +6,17 @@ import 'package:union_shop/models/products.dart';
 // If your models/products.dart already exposes a product list (named 'product'),
 // remove this fallback.
 
-class ProductsPage extends StatelessWidget {
-  const ProductsPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Union Shop',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
-      ),
-      home: const ProductsScreen(),
-    );
-  }
-}
-
 class ProductsScreen extends StatefulWidget {
-  const ProductsScreen({Key? key}) : super(key: key);
+  const ProductsScreen({Key? key, required this.filter}) : super(key: key);
+
+  final String filter;
 
   @override
   State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  String category = 'sales';
+  late String filter = widget.filter;
   String? _selectedTag;
   List<String> _allTags = [];
   List<ProductItem> _products = [];
@@ -69,7 +55,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
     // display-friendly selected tag name
     final filtered = _products.where((p) {
-      final isSales = p.category.toLowerCase().trim() == category;
+      final isSales =
+          p.category.toLowerCase().trim() == filter.toLowerCase().trim();
       if (_selectedTag == null) {
         return isSales;
       } else {
@@ -85,12 +72,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(40.0),
+            Padding(
+              padding: const EdgeInsets.all(40.0),
               child: Center(
                 child: Text(
-                  'Sales Products',
-                  style: TextStyle(fontSize: 24, color: Colors.black),
+                  filter.toUpperCase().replaceAll('-', ' '),
+                  style: const TextStyle(fontSize: 24, color: Colors.black),
                 ),
               ),
             ),
@@ -203,7 +190,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           itemBuilder: (context, index) {
                             return ProductItemCard(
                               product: filtered[index],
-                              route: '/collections/sales-product/',
+                              route: '/collections/$filter/',
                             );
                           },
                         ),
