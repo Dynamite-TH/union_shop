@@ -202,7 +202,10 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
                           ),
                           itemCount: filtered.length,
                           itemBuilder: (context, index) {
-                            return ProductItemCard(product: filtered[index]);
+                            return ProductItemCard(
+                              product: filtered[index],
+                              route: '/collections/sales-product/',
+                            );
                           },
                         ),
                       ),
@@ -215,4 +218,3 @@ class _SalesProductScreenState extends State<SalesProductScreen> {
     );
   }
 }
-
