@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/Repositories/union_shop_repository.dart';
+import 'package:union_shop/Repositories/cart_manager.dart';
 import 'package:union_shop/models/products.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -136,19 +137,63 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           onPressed: UnionShopRepository()
                               .placeholderCallbackForButtons,
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.shopping_bag_outlined,
-                            size: iconSize,
-                            color: Colors.grey,
-                          ),
-                          padding: EdgeInsets.all(iconPadding),
-                          constraints: const BoxConstraints(
-                            minWidth: 32,
-                            minHeight: 32,
-                          ),
-                          onPressed: () =>
-                              UnionShopRepository().navigateToCart(context),
+                        // Cart icon with live badge reflecting items in cart
+                        AnimatedBuilder(
+                          animation: CartManager.instance,
+                          builder: (context, _) {
+                            final count = CartManager.instance.items
+                                .fold<int>(0, (s, i) => s + i.quantity);
+                            return Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.shopping_bag_outlined,
+                                    size: iconSize,
+                                    color: Colors.grey,
+                                  ),
+                                  padding: EdgeInsets.all(iconPadding),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 32,
+                                    minHeight: 32,
+                                  ),
+                                  onPressed: () =>
+                                      UnionShopRepository().navigateToCart(
+                                          context),
+                                ),
+                                if (count > 0)
+                                  Positioned(
+                                    // place badge at top right corner of the icon
+                                    right: 4,
+                                    top: -2,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2.5),
+                                      constraints: const BoxConstraints(
+                                        minWidth: 18,
+                                        minHeight: 18,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(9),
+                                        border: Border.all(
+                                            color: Colors.white, width: 1.5),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          count > 99 ? '99+' : count.toString(),
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
                         ),
                         if (isMobile) ...[
                           Builder(
