@@ -18,7 +18,7 @@ void main() {
     // We can assert by finding the CollectionsCard type instances
     expect(find.byType(CollectionsCard), findsNWidgets(5));
 
-  // Some demo collections may have no image and show a fallback text — accept either case
-  // (we don't require a fallback message to be present in every environment).
+    // Some demo collections may have no image and show a fallback text — accept either case
+    // (we don't require a fallback message to be present in every environment).
   });
 }
