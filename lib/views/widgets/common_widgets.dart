@@ -157,9 +157,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                     minWidth: 32,
                                     minHeight: 32,
                                   ),
-                                  onPressed: () =>
-                                      UnionShopRepository().navigateToCart(
-                                          context),
+                                  onPressed: () => UnionShopRepository()
+                                      .navigateToCart(context),
                                 ),
                                 if (count > 0)
                                   Positioned(
@@ -174,8 +173,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                       ),
                                       decoration: BoxDecoration(
                                         color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(9),
+                                        borderRadius: BorderRadius.circular(9),
                                         border: Border.all(
                                             color: Colors.white, width: 1.5),
                                       ),
