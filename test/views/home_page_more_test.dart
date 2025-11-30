@@ -19,6 +19,44 @@ void main() {
   setUp(() {
     HttpOverrides.global = TestHttpOverrides();
   });
+  group('Home Page Tests', () {
+    setUpAll(() {
+      HttpOverrides.global = TestHttpOverrides();
+    });
+    testWidgets('should display home page with basic elements', (tester) async {
+      await tester.pumpWidget(const UnionShopApp());
+      // wait for async product/collection loading
+      await tester.pumpAndSettle();
+      // Check that basic UI elements are present
+      expect(find.text('Free UK delivery on orders over £30'), findsOneWidget);
+      // Updated app shows 'Sales' hero header and section titles
+      expect(find.text('Sales'), findsOneWidget);
+      expect(find.text('UNIVERSITY ESSENTIALS'), findsOneWidget);
+      expect(find.text('BROWSE PRODUCTS'), findsOneWidget);
+    });
+
+    testWidgets('should display product cards', (tester) async {
+      await tester.pumpWidget(const UnionShopApp());
+      await tester.pumpAndSettle();
+      // Home screen shows section header for promotional products
+      expect(find.text('UNIVERSITY ESSENTIALS'), findsOneWidget);
+    });
+
+    testWidgets('should display header icons', (tester) async {
+      await tester.pumpWidget(const UnionShopApp());
+      await tester.pump();
+      // Check that header icons are present (menu is conditional on small screens)
+      expect(find.byIcon(Icons.search), findsOneWidget);
+      expect(find.byIcon(Icons.shopping_bag_outlined), findsOneWidget);
+    });
+
+    testWidgets('should display footer', (tester) async {
+      await tester.pumpWidget(const UnionShopApp());
+      await tester.pump();
+      // Check that footer contains contact info
+      expect(find.textContaining('Contact Email:'), findsOneWidget);
+      expect(find.textContaining('© 2024 Union Shop. All rights reserved.'),
+          findsOneWidget);
 
   testWidgets('BROWSE PRODUCTS button navigates to /collections',
       (tester) async {
@@ -49,9 +87,9 @@ void main() {
   testWidgets('GridView uses 1 column on small width and 2 on wide width',
       (tester) async {
     // small width
-    await tester.pumpWidget(MediaQuery(
-      data: const MediaQueryData(size: Size(360, 800)),
-      child: const MaterialApp(home: HomeScreen()),
+    await tester.pumpWidget(const MediaQuery(
+      data: MediaQueryData(size: Size(360, 800)),
+      child: MaterialApp(home: HomeScreen()),
     ));
     await tester.pumpAndSettle();
 
@@ -66,9 +104,9 @@ void main() {
     expect(crossSmall, 1);
 
     // wide width
-    await tester.pumpWidget(MediaQuery(
-      data: const MediaQueryData(size: Size(900, 1200)),
-      child: const MaterialApp(home: HomeScreen()),
+    await tester.pumpWidget(const MediaQuery(
+      data: MediaQueryData(size: Size(900, 1200)),
+      child: MaterialApp(home: HomeScreen()),
     ));
     await tester.pumpAndSettle();
 
@@ -77,4 +115,5 @@ void main() {
         gvWide.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
     expect(delegateWide.crossAxisCount, 2);
   });
-}
+  });
+  }
