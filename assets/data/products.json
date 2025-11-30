@@ -65,7 +65,7 @@
         "image": "assets/images/products/wireless_earbuds.png"
     },
     {
-        "catagory": "accessory",
+        "catagory": "promotional",
         "name": "Canvas Tote Bag",
         "price": 12.0,
         "description": "Reinforced canvas tote with long handles and printed design.",
@@ -104,7 +104,7 @@
         "image": "assets/images/products/laptop_sleeve.png"
     },
     {
-        "catagory": "accessory",
+        "catagory": "promotional",
         "name": "Classic Pen Set",
         "price": 4.25,
         "description": "Pack of 5 smooth-writing gel pens in assorted colors.",
