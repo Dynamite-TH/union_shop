@@ -14,7 +14,8 @@ void main() {
     CartManager.instance.clear();
   });
 
-  testWidgets('Dropdown works when there are two similar items', (tester) async {
+  testWidgets('Dropdown works when there are two similar items',
+      (tester) async {
     final product = ProductItem(
       id: 'd1',
       name: 'DupTest',
