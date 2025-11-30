@@ -5,8 +5,9 @@ import 'package:union_shop/models/products.dart';
 
 class ProductPage extends StatefulWidget {
   final ProductItem? product;
+  final List<String>? colours;
 
-  const ProductPage({super.key, this.product});
+  const ProductPage({super.key, this.product, this.colours});
 
   @override
   State<ProductPage> createState() => _ProductPageState();
@@ -17,12 +18,13 @@ class _ProductPageState extends State<ProductPage> {
   String? _selectedSize;
   int _quantity = 1;
 
-  final _availableColors = ['Light Blue', 'Black', 'White'];
+  late List<String> _availableColors;
   final _availableSizes = ['S', 'M', 'L', 'XL'];
 
   @override
   void initState() {
     super.initState();
+    _availableColors = widget.colours ?? ['Light Blue', 'Black', 'White'];
     _selectedColor = _availableColors.first;
     _selectedSize = _availableSizes[1];
   }
@@ -229,7 +231,6 @@ class _ProductPageState extends State<ProductPage> {
                       ],
                     ),
                   ),
-                  const FooterWidget(),
                 ],
               ),
             ),
@@ -308,28 +309,33 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: isWide
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(flex: 5, child: imageColumn),
-                    const SizedBox(width: 32),
-                    Expanded(flex: 5, child: detailsColumn),
-                  ],
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    imageColumn,
-                    const SizedBox(height: 16),
-                    detailsColumn
-                  ],
-                ),
+        child: Column(
+          children: [
+            Padding(
+              // add extra bottom padding so content isn't hidden behind the fixed footer
+              padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 110.0),
+              child: isWide
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(flex: 5, child: imageColumn),
+                        const SizedBox(width: 32),
+                        Expanded(flex: 5, child: detailsColumn),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        imageColumn,
+                        const SizedBox(height: 16),
+                        detailsColumn,
+                      ],
+                    ),
+            ),
+            const FooterWidget(),
+          ],
         ),
       ),
-      // Footer (keep placeholder footer to match student exercises/tests)
     );
   }
 }
