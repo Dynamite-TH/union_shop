@@ -97,7 +97,6 @@ class UnionShopApp extends StatelessWidget {
 
 List<ProductItem> _products = [];
 List<CollectionsItem> _collections = [];
-List<String> _collectionNames = [];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -126,10 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'Product: ${p.name}, Tags: ${p.tags}, Category: ${p.category}, Colors: ${p.colors}',
       );
     }
-    // store collection slugs (normalized) for reliable route matching
-    _collectionNames = collectionsLoaded
-        .map((c) => c.name.replaceAll(' ', '-').toLowerCase())
-        .toList();
+    // (no-op) collection slugs available via _collections when needed
     if (mounted) {
       setState(() {
         _products = loaded;
