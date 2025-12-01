@@ -134,8 +134,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                             minWidth: 32,
                             minHeight: 32,
                           ),
-                          onPressed: UnionShopRepository()
-                              .placeholderCallbackForButtons,
+                          onPressed: () => UnionShopRepository()
+                              .navigateToAuthentication(context),
                         ),
                         // Cart icon with live badge reflecting items in cart
                         AnimatedBuilder(
