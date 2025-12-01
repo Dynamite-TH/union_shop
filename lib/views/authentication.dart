@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:union_shop/views/widgets/common_widgets.dart';
 
 class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
@@ -10,13 +11,12 @@ class AuthenticationScreen extends StatefulWidget {
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Authentication'),
+    return const Scaffold(
+      appBar: CustomAppBar(),
+      body: Center(
+        child: Text('Log In/ Register'),
       ),
-      body: const Center(
-        child: Text('This is the Authentication page.'),
-      ),
+      bottomNavigationBar: FooterWidget(),
     );
   }
 }
