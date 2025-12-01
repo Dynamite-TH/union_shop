@@ -1,24 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:union_shop/views/widgets/common_widgets.dart';
 
-class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Union Shop',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4d2963)),
-      ),
-      home: const AboutUsScreen(),
-      // By default, the app starts at the '/' route, which is the HomeScreen
-      initialRoute: '/about_us',
-    );
-  }
-}
-
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
 
