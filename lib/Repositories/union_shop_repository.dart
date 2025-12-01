@@ -25,6 +25,10 @@ class UnionShopRepository {
     Navigator.pushNamed(context, '/cart');
   }
 
+  void navigateToAuthentication(BuildContext context) {
+    Navigator.pushNamed(context, '/authentication');
+  }
+
   void placeholderCallbackForButtons() {
     // Placeholder function for buttons without functionality
   }
