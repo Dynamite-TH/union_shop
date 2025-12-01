@@ -9,6 +9,7 @@ import 'package:union_shop/views/not_found.dart';
 import 'package:union_shop/views/cart.dart';
 import 'package:union_shop/models/products.dart';
 import 'package:union_shop/models/collections.dart';
+import 'package:union_shop/views/authentication.dart';
 
 class UnionShopApp extends StatelessWidget {
   const UnionShopApp({super.key});
@@ -30,6 +31,7 @@ class UnionShopApp extends StatelessWidget {
         '/about_us': (context) => const AboutUsScreen(),
         '/collections': (context) => const CollectionsScreen(),
         '/cart': (context) => const CartScreen(),
+        '/authentication': (context) => const AuthenticationScreen(),
       },
       // Dynamic routes (e.g. /collections/<collection-slug> or /collections/<collection-slug>/<product-slug>)
       onGenerateRoute: (settings) {
