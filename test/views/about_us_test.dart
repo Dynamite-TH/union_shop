@@ -47,4 +47,20 @@ void main() {
     expect(find.textContaining('Privacy Policy'), findsOneWidget);
     expect(find.textContaining('Terms of Service'), findsOneWidget);
   });
+
+  testWidgets('about us page has correct texts', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: AboutUsScreen()));
+    await tester.pumpAndSettle();
+
+    expect(find.text('About Us'), findsOneWidget);
+    expect(find.textContaining('This is the About Us page.'), findsOneWidget);
+    expect(
+        find.textContaining(
+            'Here you can provide information about your company, mission, values, and team.'),
+        findsOneWidget);
+    expect(
+        find.textContaining(
+            'Feel free to customize this section to best represent your brand and connect with your audience.'),
+        findsOneWidget);
+  });
 }
