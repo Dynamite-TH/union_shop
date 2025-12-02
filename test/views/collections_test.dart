@@ -50,5 +50,42 @@ void main() {
         findsOneWidget);
   });
 
+  testWidgets('CollectionsCard displays network image and navigates on tap',
+      (tester) async {
+    final item = CollectionsItem(
+      id: '2',
+      name: 'Tap Collection',
+      description: 'desc',
+      image:
+          'http://example.com/image.png', // TestHttpOverrides will supply image bytes
+    );
+
+    // Provide a route that matches the slug created by the card
+    await tester.pumpWidget(MaterialApp(
+      routes: {
+        '/collections/tap-collection': (context) => const Scaffold(
+              body: Center(child: Text('navigated')),
+            ),
+      },
+      home: Scaffold(
+        body: CollectionsCard(
+          imageUrl: item.image,
+          title: item.name,
+          collections: item,
+          route: '/collections/',
+        ),
+      ),
+    ));
+
+    // Should render an Image widget for the network image
+    expect(find.byType(Image), findsOneWidget);
+
+    // Tap the card and verify navigation occurs to the route created by the slug
+    await tester.tap(find.byType(CollectionsCard));
+    await tester.pumpAndSettle();
+
+    expect(find.text('navigated'), findsOneWidget);
+  });
+
 
 }
