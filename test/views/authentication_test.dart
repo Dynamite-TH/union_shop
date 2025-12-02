@@ -70,8 +70,8 @@ void main() {
       (tester) async {
     await pumpAuthWidget(tester);
 
-    final username = 'alice';
-    final email = 'alice@example.com';
+    const username = 'alice';
+    const email = 'alice@example.com';
     const password = 'securePass';
 
     // Enter valid input
