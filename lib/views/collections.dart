@@ -30,12 +30,12 @@ class _CollectionsScreenState extends State<CollectionsScreen> {
   List<CollectionsItem> collectionCards = [];
   @override
   void initState() {
-    _Collections();
+    _collections();
     super.initState();
     // Any initialization if needed
   }
 
-  Future<void> _Collections() async {
+  Future<void> _collections() async {
     // collect unique tags from asynchronously loaded products
     final loaded = await loadCollectionsFromAsset();
     debugPrint('Loaded ${loaded.length} products for sales page');

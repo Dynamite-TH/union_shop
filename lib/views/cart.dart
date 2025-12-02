@@ -238,6 +238,7 @@ class _CartScreenState extends State<CartScreen> {
                             // Simulate checkout
                             final total = cart.total;
                             cart.clear();
+                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                     'Checked out £${total.toStringAsFixed(2)}. Thank you!')));
