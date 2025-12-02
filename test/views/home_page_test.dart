@@ -245,5 +245,15 @@ void main() {
       // Most apps route to '/cart' for cart icon; accept non-null name.
       expect(observer.pushed.last.settings.name, isNotNull);
     });
+
+    testWidgets('home contains at least one ProductItemCard', (tester) async {
+      await tester.pumpWidget(const UnionShopApp());
+      // Let async asset/product loading finish
+      await tester.pumpAndSettle();
+
+      // Ensure product cards render on the home screen
+      final cards = find.byType(ProductItemCard);
+      expect(cards, findsWidgets);
+    });
   });
 }
