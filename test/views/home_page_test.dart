@@ -170,5 +170,35 @@ void main() {
       expect(observer.pushed.last.settings.name,
           '/collections/sample-product/sample-product');
     });
+
+    testWidgets('ProductPage ADD TO CART adds item to cart', (tester) async {
+      // Create a sample product and pump ProductPage directly
+      final sample = ProductItem(
+          id: '2',
+          name: 'Direct Product',
+          description: 'desc',
+          price: 5.0,
+          image: 'https://example.com/p.png',
+          category: 'accessories',
+          discount: 0.0,
+          colors: ['Red'],
+          tags: []);
+
+      await tester.pumpWidget(MaterialApp(home: ProductPage(product: sample)));
+      await tester.pumpAndSettle();
+
+      // Tap ADD TO CART and confirm
+      expect(find.text('ADD TO CART'), findsOneWidget);
+      await tester.ensureVisible(find.text('ADD TO CART'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('ADD TO CART'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Add to cart'), findsOneWidget);
+      await tester.tap(find.text('Add'));
+      await tester.pumpAndSettle();
+
+      expect(CartManager.instance.items.length, greaterThanOrEqualTo(1));
+    });
   });
 }
