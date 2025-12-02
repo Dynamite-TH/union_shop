@@ -23,6 +23,7 @@ void main() {
       '/about_us': (ctx) => const Scaffold(body: Text('ABOUT')),
       'collections/sales-product': (ctx) => const Scaffold(body: Text('SALES')),
       '/cart': (ctx) => const Scaffold(body: Text('CART')),
+      '/authentication': (ctx) => const Scaffold(body: Text('AUTH')),
     };
 
     await tester.pumpWidget(MaterialApp(
