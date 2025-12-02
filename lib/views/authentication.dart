@@ -134,6 +134,19 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () {
+                    // Example: clear all fields
+                    _usernameController.clear();
+                    _emailController.clear();
+                    _passwordController.clear();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Cleared fields')),
+                    );
+                  },
+                  child: const Text('Clear'),
+                ),
+                const SizedBox(height: 40),
               ],
             ),
           ),
