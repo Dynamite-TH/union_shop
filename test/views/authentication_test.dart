@@ -108,4 +108,37 @@ void main() {
     // password is being shown (the widget toggles internal state)
     expect(find.byIcon(Icons.visibility_off), findsOneWidget);
   });
+
+  testWidgets('Clear button clears all fields and shows cleared snackbar',
+      (tester) async {
+    await pumpAuthWidget(tester);
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'bob');
+    await tester.enterText(find.byType(TextFormField).at(1), 'bob@example.com');
+    await tester.enterText(find.byType(TextFormField).at(2), 'passwordXYZ');
+
+    // Ensure the Clear button is visible (screen may need scrolling) then tap
+    // There may be other widgets using the same label; take the last matching
+    // Clear button and ensure it is visible before tapping.
+    final clearFinder = find.widgetWithText(TextButton, 'Clear').last;
+    await tester.ensureVisible(clearFinder);
+    await tester.pumpAndSettle();
+    await tester.tap(clearFinder);
+    await tester.pumpAndSettle();
+
+    // SnackBar content
+    expect(find.text('Cleared fields'), findsOneWidget);
+
+    // All controllers should be empty
+    final usernameWidget =
+        tester.widget<TextFormField>(find.byType(TextFormField).at(0));
+    final emailWidget =
+        tester.widget<TextFormField>(find.byType(TextFormField).at(1));
+    final passwordWidget =
+        tester.widget<TextFormField>(find.byType(TextFormField).at(2));
+
+    expect(usernameWidget.controller?.text, isEmpty);
+    expect(emailWidget.controller?.text, isEmpty);
+    expect(passwordWidget.controller?.text, isEmpty);
+  });
 }
