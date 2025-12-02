@@ -29,4 +29,17 @@ void main() {
     // Spot-check a product name from assets
     expect(find.textContaining('Union Tee'), findsWidgets);
   });
+
+  testWidgets('ProductsScreen shows empty state when no matches',
+      (tester) async {
+    final collections =
+        CollectionsItem(id: 'c3', name: 'None', description: 'No products');
+
+    await tester.pumpWidget(MaterialApp(
+        home: ProductsScreen(
+            filter: 'no-such-category', collections: collections)));
+    await tester.pumpAndSettle();
+
+    expect(find.text('No sales products available.'), findsOneWidget);
+  });
 }
