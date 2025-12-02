@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: promotionalFiltered.isEmpty
                           ? const Center(
                               child: Text('No promotional products available.'))
@@ -280,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     while (index < 2) {
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 4.0, horizontal: 6.0),
+                                            horizontal: 6.0),
                                         child: ProductItemCard(
                                           product: promotionalFiltered[index],
                                           // provide the full slugged route so onGenerateRoute can match:
@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.all(40.0),
+                padding: const EdgeInsets.all(0),
                 child: Column(
                   children: [
                     const Text(
@@ -317,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: accessoryFiltered.isEmpty
                           ? const Center(
                               child: Text('No accessory products available.'))
@@ -333,7 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: crossAxisCount,
-                                    crossAxisSpacing: 12, // more breathing room
+                                    crossAxisSpacing: 18, // more breathing room
                                     mainAxisSpacing: 16,
                                     // increase tile height so images are larger relative to text
                                     childAspectRatio: 0.9,
