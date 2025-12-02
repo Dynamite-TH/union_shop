@@ -255,5 +255,43 @@ void main() {
       final cards = find.byType(ProductItemCard);
       expect(cards, findsWidgets);
     });
+
+    testWidgets('tapping a ProductItemCard in HomeScreen navigates',
+        (tester) async {
+      final observer = _TestObserver();
+
+      await tester.pumpWidget(MediaQuery(
+        data: const MediaQueryData(size: Size(900, 1400)),
+        child: MaterialApp(
+          navigatorObservers: [observer],
+          onGenerateRoute: (settings) => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => Scaffold(body: Text(settings.name ?? '')),
+          ),
+          home: const HomeScreen(),
+        ),
+      ));
+
+      await tester.pumpAndSettle();
+
+      // Find the first ProductItemCard and tap its GestureDetector descendant
+      final cardFinder = find.byType(ProductItemCard).first;
+      expect(cardFinder, findsOneWidget);
+
+      final tapTarget = find.descendant(
+        of: cardFinder,
+        matching: find.byType(GestureDetector),
+      );
+
+      expect(tapTarget, findsWidgets);
+      await tester.ensureVisible(tapTarget.first);
+      await tester.pumpAndSettle();
+      await tester.tap(tapTarget.first);
+      await tester.pumpAndSettle();
+
+      expect(observer.pushed.isNotEmpty, true);
+      // Product navigation in this app uses collection/product style names.
+      expect(observer.pushed.last.settings.name, contains('/collections/'));
+    });
   });
 }
