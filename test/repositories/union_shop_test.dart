@@ -21,7 +21,7 @@ void main() {
       '/product': (ctx) => const Scaffold(body: Text('PRODUCT')),
       '/collections': (ctx) => const Scaffold(body: Text('COL')),
       '/about_us': (ctx) => const Scaffold(body: Text('ABOUT')),
-      'collections/sales-product': (ctx) => const Scaffold(body: Text('SALES')),
+      '/collections/sales': (ctx) => const Scaffold(body: Text('SALES')),
       '/cart': (ctx) => const Scaffold(body: Text('CART')),
       '/authentication': (ctx) => const Scaffold(body: Text('AUTH')),
     };
@@ -59,7 +59,7 @@ void main() {
     await tester.pumpAndSettle();
     repo.navigateToSales(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
-    expect(observer.pushed.last.settings.name, 'collections/sales');
+    expect(observer.pushed.last.settings.name, '/collections/sales');
 
     await tester.pumpWidget(MaterialApp(
         initialRoute: '/', navigatorObservers: [observer], routes: routes));
