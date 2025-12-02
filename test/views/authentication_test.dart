@@ -41,4 +41,15 @@ void main() {
     expect(find.text('Please enter a username'), findsOneWidget);
   });
 
+  testWidgets('invalid email shows proper validation error', (tester) async {
+    await pumpAuthWidget(tester);
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'user');
+    await tester.enterText(find.byType(TextFormField).at(1), 'bad@');
+    await tester.enterText(find.byType(TextFormField).at(2), 'password123');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Submit'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Please enter a valid email address'), findsOneWidget);
+  });
 }
