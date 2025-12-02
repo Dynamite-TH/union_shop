@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Hero Section
+            // Sales Section
             SizedBox(
               height: 400,
               width: double.infinity,
