@@ -147,14 +147,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final crossAxisCount = screenWidth < 600 ? 1 : 2;
 
     final promotionalFiltered = _products.where((p) {
-      final isPromotional =
-          p.category.toLowerCase().trim() == 'promotional'.toLowerCase();
+      final isPromotional = p.category.contains('promotional');
       return isPromotional;
     }).toList();
 
     final accessoryFiltered = _products.where((p) {
-      final isAccessory =
-          p.category.toLowerCase().trim() == 'accessories'.toLowerCase();
+      final isAccessory = p.category.contains('accessories');
       return isAccessory;
     }).toList();
 
@@ -279,20 +277,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemCount: promotionalFiltered.length,
                                   itemBuilder: (context, index) {
                                     // keep using the existing ProductItemCard; the larger grid tiles will make the image and text display like the reference
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 6.0),
-                                      child: ProductItemCard(
-                                        product: promotionalFiltered[index],
-                                        // provide the full slugged route so onGenerateRoute can match:
-                                        route:
-                                            '/collections/promotional-product/',
-                                        // pass available colours from the loaded products
-                                        // (this will allow the card / navigation logic to forward colors directly)
-                                        colours:
-                                            promotionalFiltered[index].colors,
-                                      ),
-                                    );
+                                    while (index < 2) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 6.0),
+                                        child: ProductItemCard(
+                                          product: promotionalFiltered[index],
+                                          // provide the full slugged route so onGenerateRoute can match:
+                                          route:
+                                              '/collections/promotional-product/',
+                                          // pass available colours from the loaded products
+                                          // (this will allow the card / navigation logic to forward colors directly)
+                                          colours:
+                                              promotionalFiltered[index].colors,
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ),
@@ -341,20 +341,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   itemCount: accessoryFiltered.length,
                                   itemBuilder: (context, index) {
                                     // keep using the existing ProductItemCard; the larger grid tiles will make the image and text display like the reference
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 4.0, horizontal: 6.0),
-                                      child: ProductItemCard(
-                                        product: accessoryFiltered[index],
-                                        // provide the full slugged route so onGenerateRoute can match:
-                                        route:
-                                            '/collections/accessory-product/',
-                                        // pass available colours from the loaded products
-                                        // (this will allow the card / navigation logic to forward colors directly)
-                                        colours:
-                                            accessoryFiltered[index].colors,
-                                      ),
-                                    );
+                                    while (index < 2) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 6.0),
+                                        child: ProductItemCard(
+                                          product: accessoryFiltered[index],
+                                          // provide the full slugged route so onGenerateRoute can match:
+                                          route:
+                                              '/collections/accessory-product/',
+                                          // pass available colours from the loaded products
+                                          // (this will allow the card / navigation logic to forward colors directly)
+                                          colours:
+                                              accessoryFiltered[index].colors,
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ),
