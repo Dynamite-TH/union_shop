@@ -299,6 +299,7 @@ class _ProductPageState extends State<ProductPage> {
 
             if (confirmed == true) {
               CartManager.instance.addItem(item);
+              // ignore: use_build_context_synchronously
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text('Added to cart')));
             }
