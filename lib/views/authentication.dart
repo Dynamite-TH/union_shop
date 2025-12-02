@@ -125,6 +125,15 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   ),
                   validator: _validatePassword,
                 ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: _submit,
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: Text('Submit', style: TextStyle(fontSize: 16)),
+                  ),
+                ),
+                const SizedBox(height: 12),
               ],
             ),
           ),
