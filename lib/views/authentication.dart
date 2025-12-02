@@ -71,12 +71,28 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(),
-      body: Center(
-        child: Text('Log In/ Register'),
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 8),
+                Text(
+                  'Authentication',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      bottomNavigationBar: FooterWidget(),
+      bottomNavigationBar: const FooterWidget(),
     );
   }
 }
