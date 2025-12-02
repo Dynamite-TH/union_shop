@@ -429,7 +429,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 width: double.infinity,
                 child: Image.network(
                   product.image,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) => Container(
                     color: Colors.grey[200],
                     child: const Center(child: Icon(Icons.broken_image)),
