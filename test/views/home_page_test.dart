@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:union_shop/views/home_page.dart';
+import 'package:union_shop/Repositories/cart_manager.dart';
+import 'package:union_shop/views/widgets/common_widgets.dart';
+import 'package:union_shop/models/products.dart';
+import 'package:union_shop/views/product_page.dart';
 
 import '../test_utils.dart';
 
@@ -20,6 +24,10 @@ void main() {
     HttpOverrides.global = TestHttpOverrides();
   });
   group('Home Page Tests', () {
+    setUp(() {
+      // Ensure cart is empty before each test
+      CartManager.instance.clear();
+    });
     setUpAll(() {
       HttpOverrides.global = TestHttpOverrides();
     });
@@ -115,6 +123,52 @@ void main() {
       final delegateWide =
           gvWide.gridDelegate as SliverGridDelegateWithFixedCrossAxisCount;
       expect(delegateWide.crossAxisCount, 2);
+    });
+
+    testWidgets('ProductItemCard tap navigates to provided route',
+        (tester) async {
+      // Create a small sample product
+      final sample = ProductItem(
+          id: '1',
+          name: 'Sample Product',
+          description: 'desc',
+          price: 9.99,
+          image: 'https://example.com/sample.png',
+          category: 'sales',
+          discount: 0.0,
+          colors: ['Black'],
+          tags: []);
+
+      final observer = _TestObserver();
+
+      await tester.pumpWidget(MaterialApp(
+        navigatorObservers: [observer],
+        routes: {
+          '/collections/sample-product/sample-product': (ctx) =>
+              const Scaffold(body: Text('PRODUCT')),
+        },
+        home: Scaffold(
+          body: Center(
+            child: ProductItemCard(
+              product: sample,
+              route: '/collections/sample-product/',
+              colours: sample.colors,
+            ),
+          ),
+        ),
+      ));
+
+      await tester.pumpAndSettle();
+
+      // Tap the image (the GestureDetector wraps the image)
+      final gd = find.byType(GestureDetector);
+      expect(gd, findsOneWidget);
+      await tester.tap(gd);
+      await tester.pumpAndSettle();
+
+      expect(observer.pushed.isNotEmpty, true);
+      expect(observer.pushed.last.settings.name,
+          '/collections/sample-product/sample-product');
     });
   });
 }
