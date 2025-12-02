@@ -67,6 +67,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(observer.pushed.last.settings.name, '/cart');
 
+    await tester.pumpWidget(MaterialApp(
+        initialRoute: '/', navigatorObservers: [observer], routes: routes));
+    await tester.pumpAndSettle();
+    repo.navigateToAuthentication(tester.element(find.byType(Scaffold)));
+    await tester.pumpAndSettle();
+    expect(observer.pushed.last.settings.name, '/authentication');
+
     // placeholder should be callable
     repo.placeholderCallbackForButtons();
   });
