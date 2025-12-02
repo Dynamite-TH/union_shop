@@ -28,4 +28,17 @@ void main() {
     expect(find.text('Please enter an email'), findsOneWidget);
     expect(find.text('Please enter a password'), findsOneWidget);
   });
+
+  testWidgets('username consisting of spaces is treated as empty',
+      (tester) async {
+    await pumpAuthWidget(tester);
+
+    final usernameField = find.byType(TextFormField).at(0);
+    await tester.enterText(usernameField, '   ');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Submit'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Please enter a username'), findsOneWidget);
+  });
+
 }
