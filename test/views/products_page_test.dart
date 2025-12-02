@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:union_shop/models/products.dart';
+import 'package:union_shop/views/products_page.dart';
+import 'package:union_shop/models/collections.dart';
 import 'package:union_shop/views/widgets/common_widgets.dart';
 
 import '../test_utils.dart';
@@ -11,25 +12,21 @@ void main() {
   setUp(() {
     HttpOverrides.global = TestHttpOverrides();
   });
-  testWidgets('ProductItemCard displays product name and prices',
-      (tester) async {
-    final product = ProductItem(
-      id: 's1',
-      name: 'Sale Product',
-      description: 'Desc',
-      price: 30.0,
-      discount: 5.0,
-      image: 'https://example.com/x.png',
-      category: 'sales',
-    );
 
-    await tester.pumpWidget(
-        MaterialApp(home: Scaffold(body: ProductItemCard(product: product))));
+  testWidgets('ProductsScreen shows product cards for known filter',
+      (tester) async {
+    final collections = CollectionsItem(
+        id: 'c1', name: 'Sales', description: 'Test collection');
+
+    await tester.pumpWidget(MaterialApp(
+        home: ProductsScreen(filter: 'sales', collections: collections)));
+
+    // wait for async product loading
     await tester.pumpAndSettle();
 
-    expect(find.text('Sale Product'), findsOneWidget);
-    expect(find.text('£30.00'), findsOneWidget);
-    // discounted price should also be shown
-    expect(find.textContaining('£'), findsWidgets);
+    // Expect at least one ProductItemCard rendered for sales
+    expect(find.byType(ProductItemCard), findsWidgets);
+    // Spot-check a product name from assets
+    expect(find.textContaining('Union Tee'), findsWidgets);
   });
 }
