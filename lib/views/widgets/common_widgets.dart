@@ -99,6 +99,19 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                               ),
                             ),
                           ),
+                          TextButton(
+                            onPressed: () {
+                              UnionShopRepository().navigateToSales(context);
+                            },
+                            child: Text(
+                              'SALE!',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: menuFontSize,
+                              ),
+                            ),
+                          )
                         ] else
                           ...[],
                       ],
@@ -282,6 +295,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                                                       child: const Center(
                                                         child: Text(
                                                           'About Us',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                              fontSize: 16),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const Divider(height: 1),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Navigator.of(menuContext)
+                                                          .pop();
+                                                      UnionShopRepository()
+                                                          .navigateToSales(
+                                                              context);
+                                                    },
+                                                    child: Container(
+                                                      width: double.infinity,
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          vertical: 14),
+                                                      child: const Center(
+                                                        child: Text(
+                                                          'Sale!',
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
