@@ -68,7 +68,7 @@ void main() {
         child: MaterialApp(
           navigatorObservers: [observer],
           routes: {
-            '/collections': (ctx) => const Scaffold(body: Text('COL')),
+            '/collections/sales': (ctx) => const Scaffold(body: Text('SALES')),
           },
           home: const HomeScreen(),
         ),
@@ -82,7 +82,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(observer.pushed.isNotEmpty, true);
-      expect(observer.pushed.last.settings.name, '/collections');
+      expect(observer.pushed.last.settings.name, '/collections/sales');
     });
 
     testWidgets('GridView uses 1 column on small width and 2 on wide width',
