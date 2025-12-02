@@ -92,4 +92,20 @@ void main() {
         tester.widget<TextFormField>(find.byType(TextFormField).at(2));
     expect(passwordFieldWidget.controller?.text, isEmpty);
   });
+
+  testWidgets('tapping visibility icon toggles obscureText on password field',
+      (tester) async {
+    await pumpAuthWidget(tester);
+
+    // Initially password is obscured; the suffix icon should be Icons.visibility
+    expect(find.byIcon(Icons.visibility), findsOneWidget);
+
+    // Tap the visibility icon to show password
+    await tester.tap(find.byIcon(Icons.visibility));
+    await tester.pumpAndSettle();
+
+    // After toggle, the icon should change to visibility_off which indicates the
+    // password is being shown (the widget toggles internal state)
+    expect(find.byIcon(Icons.visibility_off), findsOneWidget);
+  });
 }
