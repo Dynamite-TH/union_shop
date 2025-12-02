@@ -218,8 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 32),
                         ElevatedButton(
                           onPressed: () {
-                            UnionShopRepository()
-                                .navigateToCollections(context);
+                            UnionShopRepository().navigateToSales(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF4d2963),
