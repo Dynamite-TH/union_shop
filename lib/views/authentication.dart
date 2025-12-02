@@ -96,7 +96,18 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     prefixIcon: Icon(Icons.person),
                   ),
                   validator: _validateUsername,
-                )
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  validator: _validateEmail,
+                ),
               ],
             ),
           ),
