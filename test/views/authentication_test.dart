@@ -52,4 +52,44 @@ void main() {
 
     expect(find.text('Please enter a valid email address'), findsOneWidget);
   });
+
+  testWidgets('password too short shows validation error', (tester) async {
+    await pumpAuthWidget(tester);
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'user');
+    await tester.enterText(
+        find.byType(TextFormField).at(1), 'test@example.com');
+    await tester.enterText(find.byType(TextFormField).at(2), '123');
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Submit'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Password must be at least 6 characters'), findsOneWidget);
+  });
+
+  testWidgets('successful submit shows snackbar and clears password',
+      (tester) async {
+    await pumpAuthWidget(tester);
+
+    final username = 'alice';
+    final email = 'alice@example.com';
+    const password = 'securePass';
+
+    // Enter valid input
+    await tester.enterText(find.byType(TextFormField).at(0), username);
+    await tester.enterText(find.byType(TextFormField).at(1), email);
+    await tester.enterText(find.byType(TextFormField).at(2), password);
+
+    // Submit
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Submit'));
+    await tester.pumpAndSettle();
+
+    // SnackBar shows submitted data (username and email only)
+    expect(find.text('Submitted: username="$username", email="$email"'),
+        findsOneWidget);
+
+    // Verify password controller was cleared by inspecting the password TextFormField widget
+    final passwordFieldWidget =
+        tester.widget<TextFormField>(find.byType(TextFormField).at(2));
+    expect(passwordFieldWidget.controller?.text, isEmpty);
+  });
 }
