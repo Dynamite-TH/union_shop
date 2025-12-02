@@ -57,9 +57,9 @@ void main() {
     await tester.pumpWidget(MaterialApp(
         initialRoute: '/', navigatorObservers: [observer], routes: routes));
     await tester.pumpAndSettle();
-    repo.navigateToSalesProduct(tester.element(find.byType(Scaffold)));
+    repo.navigateToSales(tester.element(find.byType(Scaffold)));
     await tester.pumpAndSettle();
-    expect(observer.pushed.last.settings.name, 'collections/sales-product');
+    expect(observer.pushed.last.settings.name, 'collections/sales');
 
     await tester.pumpWidget(MaterialApp(
         initialRoute: '/', navigatorObservers: [observer], routes: routes));
