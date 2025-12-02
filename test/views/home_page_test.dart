@@ -200,5 +200,24 @@ void main() {
 
       expect(CartManager.instance.items.length, greaterThanOrEqualTo(1));
     });
+
+    testWidgets('mobile menu shows Home and About Us entries', (tester) async {
+      await tester.pumpWidget(const MediaQuery(
+        data: MediaQueryData(size: Size(400, 800)),
+        child: MaterialApp(home: HomeScreen()),
+      ));
+      await tester.pumpAndSettle();
+
+      // menu icon should be present on small screens
+      expect(find.byIcon(Icons.menu), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.menu));
+      await tester.pumpAndSettle();
+
+      // Menu dialog should include Home and About Us items
+      expect(find.text('Home'), findsOneWidget);
+      expect(find.text('About Us'), findsOneWidget);
+    });
+
+ 
   });
 }
