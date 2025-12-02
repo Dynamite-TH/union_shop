@@ -18,7 +18,7 @@ class UnionShopRepository {
   }
 
   void navigateToSales(BuildContext context) {
-    Navigator.pushNamed(context, 'collections/sales');
+    Navigator.pushNamed(context, '/collections/sales');
   }
 
   void navigateToCart(BuildContext context) {
@@ -28,8 +28,6 @@ class UnionShopRepository {
   void navigateToAuthentication(BuildContext context) {
     Navigator.pushNamed(context, '/authentication');
   }
-
-
 
   void placeholderCallbackForButtons() {
     // Placeholder function for buttons without functionality
