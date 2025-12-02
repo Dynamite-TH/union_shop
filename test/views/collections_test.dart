@@ -25,4 +25,30 @@ void main() {
     // The sample data included with the app contains multiple collections.
     expect(find.byType(CollectionsCard), findsWidgets);
   });
+
+  testWidgets('CollectionsCard shows fallback when imageUrl is empty',
+      (tester) async {
+    final item = CollectionsItem(
+      id: '1',
+      name: 'My Collection',
+      description: 'desc',
+      image: '',
+    );
+
+    await tester.pumpWidget(MaterialApp(
+      home: Scaffold(
+        body: CollectionsCard(
+          imageUrl: item.image,
+          title: item.name,
+          collections: item,
+        ),
+      ),
+    ));
+
+    // The empty-image branch renders a Container with a centered Text fallback
+    expect(find.text('image not available - page for My Collection'),
+        findsOneWidget);
+  });
+
+
 }
