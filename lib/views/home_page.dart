@@ -293,6 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     }
+                                    return null;
                                   },
                                 ),
                               ),
@@ -357,6 +358,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     }
+                                    return null;
                                   },
                                 ),
                               ),
