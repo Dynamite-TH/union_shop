@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'assets/images/accessories.png',
+                            'assets/images/collections/accessories.png',
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 32),
                         ElevatedButton(
                           onPressed: () {
-                            UnionShopRepository().navigateToSales(context);
+                            UnionShopRepository().navigateToAccesories(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF4d2963),
