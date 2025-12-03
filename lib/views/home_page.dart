@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'assets/images/sales-background.png',
+                            'assets/images/accessories.png',
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -195,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Text(
-                          'Sales',
+                          'Accessories',
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 16),
                         const Text(
-                          "Discover unbeatable deals on our exclusive sales products! From trendy apparel to must-have accessories, find everything you need at prices that can't be beat. Hurry, these offers won't last long!",
+                          "Explore our range of university-themed accessories, perfect for students and staff alike.",
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white,
