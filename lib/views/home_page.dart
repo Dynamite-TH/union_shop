@@ -290,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           // (this will allow the card / navigation logic to forward colors directly)
                                           colours:
                                               promotionalFiltered[index].colors,
+                                          imageHeight: 400,
                                         ),
                                       );
                                     }
@@ -355,6 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           // (this will allow the card / navigation logic to forward colors directly)
                                           colours:
                                               accessoryFiltered[index].colors,
+                                          imageHeight: 400,
                                         ),
                                       );
                                     }
