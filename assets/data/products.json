@@ -36,7 +36,7 @@
         "image": "assets/images/products/campus_hoodie.png"
     },
     {
-        "catagory": "accessories",
+        "catagory": "accessories, promotional",
         "name": "Study Notebook (A5)",
         "price": 6.5,
         "description": "Durable A5 notebook, 120 lined pages, hardcover.",
@@ -88,7 +88,7 @@
         "image": "assets/images/products/wireless_earbuds.png"
     },
     {
-        "catagory": "promotional, accessories",
+        "catagory": "accessories",
         "name": "Canvas Tote Bag",
         "price": 12.0,
         "description": "Reinforced canvas tote with long handles and printed design.",
