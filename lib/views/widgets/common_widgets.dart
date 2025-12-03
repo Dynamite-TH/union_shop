@@ -384,7 +384,11 @@ class ProductItemCard extends StatefulWidget {
   final double? imageHeight;
 
   const ProductItemCard(
-      {Key? key, required this.product, this.route, this.colours, this.imageHeight})
+      {Key? key,
+      required this.product,
+      this.route,
+      this.colours,
+      this.imageHeight})
       : super(key: key);
 
   @override
@@ -460,15 +464,29 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: Colors.black,
-                      decoration: _isHovering ? TextDecoration.underline : null,
+                  TextButton(
+                    onPressed: () {
+                      final slug =
+                          product.name.replaceAll(' ', '-').toLowerCase();
+                      Navigator.pushNamed(context, '${widget.route}$slug');
+                    },
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      minimumSize: const Size(0, 0),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      alignment: Alignment.centerLeft,
+                    ),
+                    child: Text(
+                      product.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Colors.black,
+                        decoration:
+                            _isHovering ? TextDecoration.underline : null,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -483,7 +501,10 @@ class _ProductItemCardState extends State<ProductItemCard> {
                               : null,
                           color:
                               product.discount > 0 ? Colors.grey : Colors.black,
-                          fontSize: 12,
+                          fontSize: product.discount > 0 ? 12 : 14,
+                          fontWeight: product.discount > 0
+                              ? FontWeight.w500
+                              : FontWeight.w600,
                         ),
                       ),
                       const SizedBox(width: 8),

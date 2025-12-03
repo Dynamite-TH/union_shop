@@ -93,6 +93,49 @@ Tips:
 
 ---
 
+## Screenshots
+
+A few screenshots from the app (files are located in the `github_images/` folder). Use these markdown examples to embed them in the README or other docs.
+
+- **Home (1)**
+
+![Home 1](github_images/Union_shop_home1.jpg)
+
+- **Home (2)**
+
+![Home 2](github_images/Union_shop_home2.jpg)
+
+- **Authentication**
+
+![Authentication](github_images/authentication.jpg)
+
+- **Product Page**
+
+![Product Page](github_images/product_page.jpg)
+
+- **Cart (with item)**
+
+![Cart with item](github_images/cart_with_item.jpg)
+
+- **Empty Cart**
+
+![Empty Cart](github_images/empty_cart.jpg)
+
+- **Accessories Page**
+
+![Accessories Page](github_images/Accessories_page.jpg)
+
+- **About Us**
+
+![About Us](github_images/about_us.jpg)
+
+Usage examples (Markdown / HTML):
+
+- Markdown: `![alt text](github_images/Union_shop_home1.jpg)`
+- HTML: `<img src="github_images/Union_shop_home1.jpg" alt="Home" width="600" />`
+
+---
+
 ## Project Structure (high-level)
 
 - `lib/` — application source code

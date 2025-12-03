@@ -36,24 +36,6 @@
         "image": "assets/images/products/campus_hoodie.png"
     },
     {
-        "catagory": "accessories, promotional",
-        "name": "Study Notebook (A5)",
-        "price": 6.5,
-        "description": "Durable A5 notebook, 120 lined pages, hardcover.",
-        "discount": 0,
-        "tags": [
-            "stationery",
-            "notebook",
-            "study"
-        ],
-        "colors": [
-            "Blue",
-            "Green",
-            "Red"
-        ],
-        "image": "assets/images/products/study_notebook.png"
-    },
-    {
         "catagory": "accessories",
         "name": "Insulated Travel Mug",
         "price": 14.0,
@@ -103,6 +85,24 @@
             "Black"
         ],
         "image": "assets/images/products/canvas_tote.png"
+    },
+    {
+        "catagory": "accessories, promotional",
+        "name": "Study Notebook (A5)",
+        "price": 6.5,
+        "description": "Durable A5 notebook, 120 lined pages, hardcover.",
+        "discount": 0,
+        "tags": [
+            "stationery",
+            "notebook",
+            "study"
+        ],
+        "colors": [
+            "Blue",
+            "Green",
+            "Red"
+        ],
+        "image": "assets/images/products/study_notebook.png"
     },
     {
         "catagory": "sales",
