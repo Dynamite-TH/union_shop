@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
-                            'assets/images/collections/accessories.png',
+                            'assets/images/accessories.png',
                           ),
                           fit: BoxFit.cover,
                         ),
