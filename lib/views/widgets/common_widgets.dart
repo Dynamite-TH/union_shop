@@ -381,9 +381,10 @@ class ProductItemCard extends StatefulWidget {
   final ProductItem product;
   final String? route;
   final List<String>? colours;
+  final double? imageHeight;
 
   const ProductItemCard(
-      {Key? key, required this.product, this.route, this.colours})
+      {Key? key, required this.product, this.route, this.colours, this.imageHeight})
       : super(key: key);
 
   @override
@@ -425,7 +426,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
                 Navigator.pushNamed(context, '${widget.route}$slug');
               },
               child: SizedBox(
-                height: 200,
+                height: widget.imageHeight ?? 250,
                 width: double.infinity,
                 child: Image.network(
                   product.image,
@@ -438,6 +439,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
               ),
             ),
           ),
+          const SizedBox(height: 8),
 
           // Small white box that only wraps the text; rounded bottom corners to match the card.
           Container(
