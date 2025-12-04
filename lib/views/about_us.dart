@@ -33,11 +33,11 @@ class AboutUsScreen extends StatelessWidget {
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                         Text(
-                          'Here you can provide information about your company, mission, values, and team.',
+                          'We are committed to providing the best products and services to our customers.',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                         Text(
-                          'Feel free to customize this section to best represent your brand and connect with your audience.',
+                          'Our mission is to create a seamless shopping experience for everyone.',
                           style: TextStyle(fontSize: 16, color: Colors.grey),
                         ),
                       ],
