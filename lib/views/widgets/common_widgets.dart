@@ -410,42 +410,54 @@ class _ProductItemCardState extends State<ProductItemCard> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    return Card(
-      color: Colors.transparent,
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      clipBehavior: Clip.hardEdge,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Image (top) — clipped to top corners
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                final slug = product.name.replaceAll(' ', '-').toLowerCase();
-                Navigator.pushNamed(context, '${widget.route}$slug');
-              },
-              child: SizedBox(
-                height: widget.imageHeight ?? 250,
-                width: double.infinity,
-                child: Image.network(
-                  product.image,
-                  fit: BoxFit.fill,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: Colors.grey[200],
-                    child: const Center(child: Icon(Icons.broken_image)),
+   return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          final slug = product.name.replaceAll(' ', '-').toLowerCase();
+          Navigator.pushNamed(context, '${widget.route}$slug');
+        },
+        child: Card(
+          color: Colors.transparent,
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          clipBehavior: Clip.hardEdge,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Image (top) — flexible so it can shrink in tight tiles
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(8),
+                    topRight: Radius.circular(8),
                   ),
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    // If the parent provides a finite max height, cap the image height
+                    // so the card can fit within limited space (prevents RenderFlex overflow
+                    // in tight Grid tiles during tests).
+                    double defaultHeight = widget.imageHeight ?? 250;
+                    final maxH = constraints.maxHeight;
+                    double imageH = defaultHeight;
+                    if (maxH.isFinite && maxH > 0) {
+                      imageH = math.min(defaultHeight, maxH * 0.6);
+                    }
+
+                    return SizedBox(
+                      height: imageH,
+                      width: double.infinity,
+                      child: Image.network(
+                        product.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          color: Colors.grey[200],
+                          child: const Center(child: Icon(Icons.broken_image)),
+                        ),
+                      ),
+                    );
+                  }),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 8),
-
           // Small white box that only wraps the text; rounded bottom corners to match the card.
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
