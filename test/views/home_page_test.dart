@@ -38,7 +38,7 @@ void main() {
       // Check that basic UI elements are present
       expect(find.text('Free UK delivery on orders over £30'), findsOneWidget);
       // Updated app shows 'Sales' hero header and section titles
-      expect(find.text('Sales'), findsOneWidget);
+      expect(find.text('Accessories'), findsOneWidget);
       expect(find.text('UNIVERSITY ESSENTIALS'), findsOneWidget);
       expect(find.text('BROWSE PRODUCTS'), findsOneWidget);
     });
@@ -67,7 +67,7 @@ void main() {
           findsOneWidget);
     });
 
-    testWidgets('BROWSE PRODUCTS button navigates to /collections',
+    testWidgets('BROWSE PRODUCTS button navigates to /collections/accessories',
         (tester) async {
       final observer = _TestObserver();
 
@@ -76,7 +76,8 @@ void main() {
         child: MaterialApp(
           navigatorObservers: [observer],
           routes: {
-            '/collections/sales': (ctx) => const Scaffold(body: Text('SALES')),
+            '/collections/accessories': (ctx) =>
+                const Scaffold(body: Text('ACCESSORIES')),
           },
           home: const HomeScreen(),
         ),
@@ -90,7 +91,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(observer.pushed.isNotEmpty, true);
-      expect(observer.pushed.last.settings.name, '/collections/sales');
+      expect(observer.pushed.last.settings.name, '/collections/accessories');
     });
 
     testWidgets('GridView uses 1 column on small width and 2 on wide width',
