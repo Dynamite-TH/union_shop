@@ -443,7 +443,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 2),
 
           // Small white box that only wraps the text; rounded bottom corners to match the card.
           Container(
