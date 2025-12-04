@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:union_shop/Repositories/union_shop_repository.dart';
 import 'package:union_shop/Repositories/cart_manager.dart';
 import 'package:union_shop/models/products.dart';
+import 'dart:math' as math;
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({Key? key}) : super(key: key);
@@ -443,7 +444,7 @@ class _ProductItemCardState extends State<ProductItemCard> {
               ),
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 8),
 
           // Small white box that only wraps the text; rounded bottom corners to match the card.
           Container(
