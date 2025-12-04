@@ -307,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               color: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(40.0),
                 child: Column(
                   children: [
                     const Text(
@@ -335,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: crossAxisCount,
-                                    crossAxisSpacing: 18, // more breathing room
+                                    crossAxisSpacing: 12, // more breathing room
                                     mainAxisSpacing: 16,
                                     // increase tile height so images are larger relative to text
                                     childAspectRatio: 0.9,
@@ -346,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     while (index < 2) {
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 4.0, horizontal: 6.0),
+                                            vertical: 4.0),
                                         child: ProductItemCard(
                                           product: accessoryFiltered[index],
                                           // provide the full slugged route so onGenerateRoute can match:
