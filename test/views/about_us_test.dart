@@ -56,11 +56,11 @@ void main() {
     expect(find.textContaining('This is the About Us page.'), findsOneWidget);
     expect(
         find.textContaining(
-            'Here you can provide information about your company, mission, values, and team.'),
+            'We are committed to providing the best products and services to our customers.'),
         findsOneWidget);
     expect(
         find.textContaining(
-            'Feel free to customize this section to best represent your brand and connect with your audience.'),
+            'Our mission is to create a seamless shopping experience for everyone.'),
         findsOneWidget);
   });
 }
